@@ -10,7 +10,7 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
     
     <!-- Three.js via CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -29,16 +29,18 @@
         
         body {
             font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #03060D;
+            background: #020409;
             color: #FFFFFF;
             overflow-x: hidden;
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
         }
         
+        h1, h2, h3, h4 { font-family: 'Outfit', 'Manrope', sans-serif; font-weight: 800; letter-spacing: -0.02em; }
+        
         ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #03060D; }
-        ::-webkit-scrollbar-thumb { background: #F5A524; border-radius: 4px; }
+        ::-webkit-scrollbar-track { background: #020409; }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(to bottom, #F5A524, #D97706); border-radius: 4px; }
         
         /* ============ UTILITIES ============ */
         .container {
@@ -46,72 +48,77 @@
             margin: 0 auto;
             padding: 0 1.5rem;
             position: relative;
-            z-index: 20;
+            z-index: 30;
         }
-        
-        h1, h2, h3, h4 { font-weight: 700; letter-spacing: -0.02em; }
         
         h2 {
             font-size: clamp(2.5rem, 5vw, 4rem);
             text-align: center;
             margin-bottom: 1rem;
-            background: linear-gradient(135deg, #FFFFFF 0%, #F5A524 100%);
+            background: linear-gradient(135deg, #FFFFFF 0%, #F5A524 60%, #FFFFFF 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         
-        .section-title { text-align: center; margin-bottom: 4rem; }
+        .section-title { text-align: center; margin-bottom: 1rem; }
         .section-title p {
             color: #94A3B8;
-            font-size: 1.125rem;
-            max-width: 600px;
+            font-size: 1.25rem;
+            max-width: 650px;
             margin: 1rem auto 0;
-        }
-        
-        .section-subtitle {
-            text-align: center;
-            color: #94A3B8;
-            font-size: 1.125rem;
-            max-width: 700px;
-            margin: 0 auto 3rem;
+            font-weight: 400;
         }
         
         /* ============ BUTTONS ============ */
         .btn {
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            font-weight: 600;
+            gap: 0.75rem;
+            padding: 1.125rem 2.5rem;
+            border-radius: 60px;
+            font-weight: 700;
             text-decoration: none;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
             cursor: pointer;
             border: none;
             font-size: 1rem;
+            position: relative;
+            overflow: hidden;
         }
         
         .btn-primary {
             background: linear-gradient(135deg, #F5A524 0%, #D97706 100%);
-            color: #03060D;
-            box-shadow: 0 10px 30px -10px rgba(245, 165, 36, 0.4);
+            color: #020409;
+            box-shadow: 0 15px 35px -15px rgba(245, 165, 36, 0.5);
         }
         
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: 0.6s;
+        }
+        
+        .btn-primary:hover::before { left: 100%; }
         .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 20px 40px -15px rgba(245, 165, 36, 0.6);
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 25px 50px -20px rgba(245, 165, 36, 0.6);
         }
         
         .btn-secondary {
             background: transparent;
             color: #FFFFFF;
-            border: 2px solid #334155;
-            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255,255,255,0.15);
+            backdrop-filter: blur(15px);
         }
         
         .btn-secondary:hover {
             border-color: #F5A524;
             color: #F5A524;
+            transform: translateY(-3px);
+            box-shadow: 0 0 30px rgba(245, 165, 36, 0.3);
         }
         
         /* ============ NAVIGATION ============ */
@@ -120,17 +127,18 @@
             top: 0;
             left: 0;
             width: 100%;
-            padding: 1.5rem 0;
+            padding: 1.25rem 0;
             z-index: 1000;
             transition: all 0.4s ease;
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(25px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
         }
         
         nav.scrolled {
-            padding: 1rem 0;
-            background: rgba(3, 6, 13, 0.95);
-            border-bottom-color: rgba(245, 165, 36, 0.3);
+            padding: 0.75rem 0;
+            background: rgba(2, 4, 9, 0.9);
+            border-bottom-color: rgba(245, 165, 36, 0.2);
+            box-shadow: 0 10px 40px -10px rgba(0,0,0,0.5);
         }
         
         .nav-container {
@@ -151,54 +159,102 @@
             align-items: center;
             gap: 0.75rem;
             z-index: 1001;
+            letter-spacing: -0.03em;
         }
         
         .logo-icon {
-            width: 40px;
-            height: 40px;
+            width: 42px;
+            height: 42px;
             background: linear-gradient(135deg, #F5A524 0%, #D97706 100%);
-            border-radius: 12px;
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 0 20px rgba(245, 165, 36, 0.4);
+            box-shadow: 0 0 25px rgba(245, 165, 36, 0.5);
+            position: relative;
         }
         
-        .nav-links { display: flex; gap: 2rem; align-items: center; }
+        .logo-icon::after {
+            content: '';
+            position: absolute;
+            top: -4px; left: -4px; right: -4px; bottom: -4px;
+            border: 1px solid rgba(245, 165, 36, 0.4);
+            border-radius: 18px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .logo:hover .logo-icon::after { opacity: 1; }
+        
+        .nav-links { display: flex; gap: 2.5rem; align-items: center; }
         .nav-links a {
             color: #CBD5E1;
             text-decoration: none;
             font-weight: 500;
-            font-size: 0.95rem;
-            transition: color 0.3s ease;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            position: relative;
         }
-        .nav-links a:hover { color: #F5A524; }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px; left: 0; width: 0; height: 2px;
+            background: linear-gradient(90deg, #F5A524, #D97706);
+            transition: width 0.3s ease;
+        }
+        .nav-links a:hover {
+            color: #FFFFFF;
+        }
+        .nav-links a:hover::after { width: 100%; }
         
         .nav-cta { display: none; }
+        
+        /* ============ MOTION GRAPHICS OVERLAYS ============ */
+        .motion-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 5;
+            overflow: hidden;
+        }
+        
+        .light-streak {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(to right, transparent, #F5A524, transparent);
+            border-radius: 2px;
+            opacity: 0;
+            animation: streakMove 3s linear infinite;
+        }
+        
+        @keyframes streakMove {
+            0% { transform: translateX(-100vw); opacity: 0; }
+            20% { opacity: 0.8; }
+            80% { opacity: 0.8; }
+            100% { transform: translateX(100vw); opacity: 0; }
+        }
         
         /* ============ HERO SECTION ============ */
         .hero {
             position: relative;
             height: 100vh;
+            min-height: 700px;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            background: #03060D;
+            background: #020409;
         }
         
         #hero-canvas {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             z-index: 1;
         }
         
         .hero-content {
             position: relative;
-            z-index: 20;
+            z-index: 30;
             text-align: center;
             max-width: 900px;
             padding: 0 1.5rem;
@@ -207,34 +263,39 @@
         .hero-kicker {
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 1rem;
-            background: rgba(245, 165, 36, 0.1);
-            border: 1px solid rgba(245, 165, 36, 0.3);
-            border-radius: 50px;
+            gap: 0.75rem;
+            padding: 0.75rem 1.5rem;
+            background: rgba(245, 165, 36, 0.08);
+            border: 1px solid rgba(245, 165, 36, 0.25);
+            border-radius: 60px;
             color: #F5A524;
             font-size: 0.875rem;
-            font-weight: 600;
-            margin-bottom: 1.5rem;
-            backdrop-filter: blur(10px);
-            animation: fadeInUp 0.8s ease forwards;
+            font-weight: 700;
+            margin-bottom: 1.75rem;
+            backdrop-filter: blur(15px);
+            animation: fadeInUp 0.8s ease 0.3s forwards;
             opacity: 0;
         }
         
         .hero-dot {
-            width: 8px;
-            height: 8px;
+            width: 10px; height: 10px;
             background: #F5A524;
             border-radius: 50%;
-            box-shadow: 0 0 10px #F5A524;
+            box-shadow: 0 0 15px #F5A524;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.4); opacity: 0.6; }
         }
         
         .hero h1 {
-            font-size: clamp(3rem, 7vw, 5rem);
-            line-height: 1.05;
-            margin-bottom: 1.5rem;
+            font-size: clamp(3rem, 8vw, 5.5rem);
+            line-height: 1.02;
+            margin-bottom: 1.75rem;
             color: #FFFFFF;
-            animation: fadeInUp 0.8s ease 0.2s forwards;
+            animation: fadeInUp 0.8s ease 0.5s forwards;
             opacity: 0;
         }
         
@@ -243,11 +304,12 @@
         .hero p {
             font-size: clamp(1.125rem, 2vw, 1.5rem);
             color: #94A3B8;
-            margin-bottom: 2.5rem;
-            max-width: 600px;
+            margin-bottom: 3rem;
+            max-width: 650px;
             margin-left: auto;
             margin-right: auto;
-            animation: fadeInUp 0.8s ease 0.4s forwards;
+            font-weight: 400;
+            animation: fadeInUp 0.8s ease 0.7s forwards;
             opacity: 0;
         }
         
@@ -256,317 +318,362 @@
             gap: 1rem;
             justify-content: center;
             flex-wrap: wrap;
-            animation: fadeInUp 0.8s ease 0.6s forwards;
+            animation: fadeInUp 0.8s ease 0.9s forwards;
             opacity: 0;
         }
         
-        /* ============ SCROLL INDICATOR ============ */
-        .scroll-indicator {
-            position: absolute;
-            bottom: 3rem;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 20;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.5rem;
-            color: #94A3B8;
-            font-size: 0.875rem;
-            animation: bounce 2s infinite;
+        /* ============ SCROLL PROGRESS ============ */
+        .scroll-progress {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 4px;
+            background: rgba(255,255,255,0.05);
+            z-index: 9999;
         }
-        
-        .scroll-line {
-            width: 1px;
-            height: 40px;
-            background: linear-gradient(to bottom, #F5A524, transparent);
+        .scroll-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #F5A524, #D97706);
+            width: 0%;
+            transition: width 0.1s linear;
+            box-shadow: 0 0 15px #F5A524;
         }
         
         /* ============ SECTIONS ============ */
         section {
             position: relative;
-            padding: 6rem 0;
+            padding: 8rem 0;
             z-index: 20;
         }
         
         .canvas-section {
-            position: relative;
             overflow: hidden;
         }
         
         section canvas.webgl {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             z-index: 1;
         }
         
         .reveal {
             opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.8s ease;
+            transform: translateY(50px);
+            transition: all 0.9s cubic-bezier(0.23, 1, 0.32, 1);
         }
         
         .reveal.active { opacity: 1; transform: translateY(0); }
-        .reveal-delay-1 { transition-delay: 0.1s; }
-        .reveal-delay-2 { transition-delay: 0.2s; }
-        .reveal-delay-3 { transition-delay: 0.3s; }
+        .reveal-delay-1 { transition-delay: 0.15s; }
+        .reveal-delay-2 { transition-delay: 0.3s; }
+        .reveal-delay-3 { transition-delay: 0.45s; }
         
-        /* ============ SERVICES GRID ============ */
+        /* ============ SERVICES ============ */
         .services-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            margin-top: 4rem;
+            perspective: 1000px;
         }
         
         .service-card {
-            background: rgba(30, 41, 59, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 24px;
-            padding: 2.5rem 2rem;
-            transition: all 0.4s ease;
-            backdrop-filter: blur(20px);
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 32px;
+            padding: 3rem 2rem;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            backdrop-filter: blur(25px);
             position: relative;
             overflow: hidden;
+            cursor: pointer;
         }
         
         .service-card::before {
             content: '';
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(135deg, rgba(245, 165, 36, 0.05) 0%, transparent 100%);
+            background: linear-gradient(135deg, rgba(245, 165, 36, 0.08) 0%, transparent 100%);
             opacity: 0;
-            transition: opacity 0.4s ease;
+            transition: opacity 0.5s ease;
         }
         
         .service-card:hover {
-            transform: translateY(-10px);
-            border-color: rgba(245, 165, 36, 0.4);
-            background: rgba(30, 41, 59, 0.8);
+            transform: translateY(-12px) rotateX(3deg);
+            border-color: rgba(245, 165, 36, 0.35);
+            background: rgba(15, 23, 42, 0.8);
+            box-shadow: 0 30px 60px -20px rgba(245, 165, 36, 0.15);
         }
         
         .service-card:hover::before { opacity: 1; }
         
-        .service-icon {
-            width: 60px; height: 60px;
-            background: linear-gradient(135deg, #F5A524 0%, #D97706 100%);
-            border-radius: 16px;
+        .service-icon-3d {
+            width: 70px; height: 70px;
+            margin: 0 0 1.75rem;
             display: flex; align-items: center; justify-content: center;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 10px 30px -10px rgba(245, 165, 36, 0.3);
+            border-radius: 20px;
+            background: linear-gradient(135deg, #F5A524 0%, #D97706 100%);
+            font-size: 1.75rem;
+            box-shadow: 0 15px 40px -15px rgba(245, 165, 36, 0.4);
+            transition: transform 0.4s ease;
+        }
+        
+        .service-card:hover .service-icon-3d {
+            transform: scale(1.15) rotate(15deg);
         }
         
         .service-card h3 {
-            font-size: 1.25rem; margin-bottom: 0.75rem; color: #FFFFFF;
-        }
-        .service-card p {
-            color: #94A3B8; font-size: 0.95rem; line-height: 1.6;
+            font-size: 1.35rem;
+            margin-bottom: 0.75rem;
+            color: #FFFFFF;
         }
         
-        /* ============ FLEET SHOWCASE ============ */
+        .service-card p {
+            color: #94A3B8;
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+        
+        /* ============ FLEET / 3D SHOWCASE ============ */
+        .fleet-intro {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 5rem;
+        }
+        
         .fleet-showcase {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 2rem;
-            margin-top: 4rem;
+            margin-top: 3rem;
         }
         
         .fleet-card {
-            background: rgba(30, 41, 59, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 20px;
-            padding: 2rem;
+            background: rgba(15, 23, 42, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 28px;
+            padding: 2.5rem 2rem;
             text-align: center;
             transition: all 0.4s ease;
-            backdrop-filter: blur(15px);
+            backdrop-filter: blur(20px;
+            position: relative;
         }
         
         .fleet-card:hover {
             transform: translateY(-8px);
-            border-color: rgba(245, 165, 36, 0.3);
-            background: rgba(30, 41, 59, 0.7);
+            border-color: rgba(245, 165, 36, 0.25);
+            background: rgba(15, 23, 42, 0.6);
         }
         
-        .fleet-icon {
-            width: 80px; height: 80px;
-            margin: 0 auto 1.5rem;
-            border-radius: 20px;
-            background: rgba(255, 255, 255, 0.05);
+        .fleet-icon-3d {
+            width: 90px; height: 90px;
+            margin: 0 auto 1.75rem;
+            border-radius: 24px;
+            background: rgba(255, 255, 255, 0.03);
             display: flex; align-items: center; justify-content: center;
-            font-size: 2rem;
+            font-size: 2.5rem;
+            border: 1px solid rgba(255,255,255,0.05);
         }
         
         .fleet-card h3 { font-size: 1.25rem; margin-bottom: 0.5rem; color: #FFFFFF; }
-        .fleet-card p { color: #94A3B8; font-size: 0.9rem; margin-bottom: 1rem; }
+        .fleet-card p { color: #94A3B8; font-size: 0.9rem; margin-bottom: 1.25rem; }
         
         .fleet-capacity {
             display: inline-flex; align-items: center; gap: 0.5rem;
-            padding: 0.5rem 1rem;
+            padding: 0.5rem 1.25rem;
             background: rgba(245, 165, 36, 0.1);
             color: #F5A524;
             border-radius: 50px;
-            font-size: 0.85rem; font-weight: 600;
+            font-size: 0.85rem; font-weight: 700;
         }
         
         /* ============ STATS ============ */
         .stats-section {
-            background: linear-gradient(180deg, rgba(245, 165, 36, 0.05) 0%, transparent 100%);
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            background: linear-gradient(180deg, rgba(245, 165, 36, 0.04) 0%, transparent 100%);
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
         }
         
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 3rem;
-            margin-top: 3rem;
+            margin-top: 4rem;
         }
         
-        .stat-item { text-align: center; padding: 2rem; }
+        .stat-item { text-align: center; padding: 2rem 1rem; }
         .stat-number {
-            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
             font-weight: 800; color: #FFFFFF;
             display: block; margin-bottom: 0.5rem;
             background: linear-gradient(135deg, #FFFFFF 0%, #F5A524 100%);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
-        .stat-label { color: #94A3B8; font-size: 1rem; font-weight: 500; }
+        .stat-label { color: #94A3B8; font-size: 1rem; font-weight: 600; letter-spacing: 0.01em; }
         
-        /* ============ WHY CHOOSE ============ */
-        .features-grid {
+        /* ============ SAFETY / 3D ORBIT ============ */
+        #safety .section-title { margin-bottom: 5rem; }
+        
+        .safety-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
             gap: 2rem;
             margin-top: 3rem;
         }
         
-        .feature-card {
-            background: rgba(30, 41, 59, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 20px;
-            padding: 2rem;
+        .safety-card {
+            background: rgba(15, 23, 42, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 28px;
+            padding: 2.5rem 2rem;
             display: flex; gap: 1.5rem; align-items: flex-start;
             transition: all 0.4s ease;
+            backdrop-filter: blur(20px);
         }
         
-        .feature-card:hover {
-            transform: translateX(10px);
-            border-color: rgba(245, 165, 36, 0.3);
+        .safety-card:hover {
+            transform: translateX(12px);
+            border-color: rgba(245, 165, 36, 0.25);
         }
         
-        .feature-icon {
-            width: 50px; height: 50px;
-            background: rgba(245, 165, 36, 0.1);
-            border-radius: 14px;
+        .safety-icon-3d {
+            width: 56px; height: 56px;
+            background: rgba(245, 165, 36, 0.12);
+            border-radius: 16px;
             display: flex; align-items: center; justify-content: center;
-            color: #F5A524; flex-shrink: 0;
+            color: #F5A524;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+            box-shadow: 0 0 20px rgba(245, 165, 36, 0.2);
         }
         
-        .feature-content h3 { font-size: 1.125rem; margin-bottom: 0.5rem; color: #FFFFFF; }
-        .feature-content p { color: #94A3B8; font-size: 0.95rem; line-height: 1.5; }
+        .safety-card h3 { font-size: 1.15rem; margin-bottom: 0.5rem; color: #FFFFFF; }
+        .safety-card p { color: #94A3B8; font-size: 0.92rem; line-height: 1.6; }
         
         /* ============ CLIENTS ============ */
+        #clients { background: #020409; }
+        
         .clients-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-            gap: 2rem 3rem;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 3rem 4rem;
             align-items: center; justify-items: center;
-            opacity: 0.6;
+            opacity: 0.45;
             transition: opacity 0.4s ease;
         }
-        .clients-grid:hover { opacity: 0.85; }
+        .clients-grid:hover { opacity: 0.75; }
         
         .client-logo {
-            width: 100%; height: 70px;
+            width: 100%; height: 80px;
             display: flex; align-items: center; justify-content: center;
-            filter: grayscale(100%) brightness(0.3);
+            filter: grayscale(100%) brightness(0.25);
             transition: filter 0.4s ease;
         }
         .client-logo:hover { filter: grayscale(0%) brightness(1); }
-        .client-logo img { max-width: 90%; max-height: 90%; object-fit: contain; }
+        .client-logo img { max-width: 88%; max-height: 88%; object-fit: contain; }
         
         /* ============ CTA ============ */
         .cta-section {
-            background: linear-gradient(135deg, #0B1B2B 0%, #03060D 100%);
-            border: 1px solid rgba(245, 165, 36, 0.2);
-            border-radius: 40px;
-            padding: 5rem 3rem;
+            background: linear-gradient(135deg, #0B1B2B 0%, #020409 100%);
+            border: 1px solid rgba(245, 165, 36, 0.15);
+            border-radius: 52px;
+            padding: 6rem 3rem;
             text-align: center;
             position: relative; overflow: hidden;
         }
         .cta-section::before {
             content: ''; position: absolute;
-            top: -50%; left: -50%; width: 200%; height: 200%;
-            background: radial-gradient(circle, rgba(245, 165, 36, 0.1) 0%, transparent 50%);
-            animation: rotate 20s linear infinite;
+            top: -40%; left: -40%; width: 180%; height: 180%;
+            background: radial-gradient(circle at 30% 30%, rgba(245, 165, 36, 0.12) 0%, transparent 45%);
+            animation: rotateSlow 25s linear infinite;
         }
         .cta-content { position: relative; z-index: 10; }
         .cta-content h2 { font-size: clamp(2rem, 4vw, 3rem); margin-bottom: 1rem; }
-        .cta-content p { color: #94A3B8; font-size: 1.125rem; margin-bottom: 2rem; }
+        .cta-content p { color: #94A3B8; font-size: 1.25rem; margin-bottom: 2.5rem; font-weight: 400; }
         
         /* ============ FOOTER ============ */
         footer {
-            background: #020409;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 5rem 0 2rem;
+            background: #010205;
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
+            padding: 7rem 0 3rem;
         }
         .footer-grid {
             display: grid;
             grid-template-columns: 1fr 2fr 1fr;
-            gap: 3rem;
-            margin-bottom: 3rem;
+            gap: 4rem;
+            margin-bottom: 4rem;
         }
-        .footer-brand h3 { font-size: 1.5rem; margin-bottom: 1rem; color: #FFFFFF; }
-        .footer-brand p { color: #94A3B8; font-size: 0.95rem; line-height: 1.7; max-width: 300px; }
-        .footer-links h4 { color: #FFFFFF; margin-bottom: 1.5rem; font-size: 1rem; }
+        .footer-brand h3 { font-size: 1.6rem; margin-bottom: 1.25rem; color: #FFFFFF; }
+        .footer-brand p { color: #94A3B8; font-size: 0.95rem; line-height: 1.8; max-width: 320px; }
+        .footer-links h4 { color: #FFFFFF; margin-bottom: 1.75rem; font-size: 1rem; letter-spacing: 0.02em; }
         .footer-links ul { list-style: none; }
-        .footer-links li { margin-bottom: 0.75rem; }
+        .footer-links li { margin-bottom: 0.85rem; }
         .footer-links a { color: #94A3B8; text-decoration: none; font-size: 0.95rem; transition: color 0.3s ease; }
         .footer-links a:hover { color: #F5A524; }
-        .footer-contact h4 { color: #FFFFFF; margin-bottom: 1.5rem; font-size: 1rem; }
+        .footer-contact h4 { color: #FFFFFF; margin-bottom: 1.75rem; font-size: 1rem; }
         .contact-item {
             display: flex; align-items: flex-start; gap: 1rem;
             margin-bottom: 1rem; color: #94A3B8; font-size: 0.95rem;
         }
         .contact-icon {
-            width: 32px; height: 32px;
+            width: 36px; height: 36px;
             background: rgba(245, 165, 36, 0.1);
-            border-radius: 8px;
+            border-radius: 10px;
             display: flex; align-items: center; justify-content: center;
-            color: #F5A524; flex-shrink: 0;
+            color: #F5A524; flex-shrink: 0; font-size: 1.1rem;
         }
         .footer-bottom {
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
+            padding-top: 2.5rem;
             display: flex; justify-content: space-between; align-items: center;
             color: #64748B; font-size: 0.875rem; flex-wrap: wrap; gap: 1rem;
         }
         .social-links { display: flex; gap: 1rem; }
         .social-links a {
-            width: 36px; height: 36px;
-            background: rgba(255, 255, 255, 0.05);
+            width: 40px; height: 40px;
+            background: rgba(255, 255, 255, 0.04);
             border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
             color: #CBD5E1; text-decoration: none;
             transition: all 0.3s ease;
+            font-size: 1.2rem;
         }
         .social-links a:hover {
-            background: #F5A524; color: #03060D; transform: translateY(-3px);
+            background: #F5A524; color: #020409; transform: translateY(-4px);
+        }
+        
+        /* ============ CONTACT FORM ============ */
+        .form-card {
+            background: rgba(15, 23, 42, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 32px;
+            padding: 3rem 2.5rem;
+            backdrop-filter: blur(25px);
+        }
+        
+        .form-group { margin-bottom: 1.75rem; }
+        .form-group label {
+            display: block; color: #94A3B8; font-size: 0.875rem;
+            margin-bottom: 0.6rem; font-weight: 600;
+        }
+        .form-group input, .form-group select {
+            width: 100%; padding: 1rem 1.25rem;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+            color: #FFFFFF; font-family: inherit; font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #F5A524;
+            background: rgba(255,255,255,0.06);
+            box-shadow: 0 0 20px rgba(245, 165, 36, 0.1);
         }
         
         /* ============ ANIMATIONS ============ */
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
+            from { opacity: 0; transform: translateY(35px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        @keyframes bounce {
-            0%, 100% { transform: translateX(-50%) translateY(0); }
-            50% { transform: translateX(-50%) translateY(-10px); }
-        }
-        @keyframes rotate {
+        @keyframes rotateSlow {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
@@ -575,14 +682,23 @@
         @media (max-width: 768px) {
             .nav-links { display: none; }
             .nav-cta { display: block; }
-            .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+            .footer-grid { grid-template-columns: 1fr; gap: 2.5rem; }
             .hero h1 { font-size: 2.5rem; }
-            section { padding: 4rem 0; }
+            section { padding: 5rem 0; }
             .footer-bottom { flex-direction: column; text-align: center; }
+            .contact-item { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+            .hero-actions { flex-direction: column; align-items: center; }
+            .hero-actions .btn { width: 100%; max-width: 300px; justify-content: center; }
         }
     </style>
 </head>
 <body>
+
+    <!-- Scroll Progress -->
+    <div class="scroll-progress"><div class="scroll-progress-bar"></div></div>
+
+    <!-- Motion Graphics Overlay -->
+    <div class="motion-overlay" id="motionOverlay"></div>
 
     <!-- Navigation -->
     <nav id="navbar">
@@ -603,24 +719,26 @@
         </div>
     </nav>
 
-    <!-- Hero Section with 3D Car -->
+    <!-- Hero Section - Cinematic 3D Story -->
     <section class="hero" id="home">
         <canvas id="hero-canvas" class="webgl"></canvas>
+        
         <div class="hero-content">
             <div class="hero-kicker">
                 <span class="hero-dot"></span>
-                Premium Employee Transport
+                The Journey Begins
             </div>
             <h1>Corporate Cabs that Feel <span class="amber">First-Class</span></h1>
-            <p>Own fleet and vetted partner network. GPS-tracked rides, 24x7 control room, and one monthly GST invoice for your company.</p>
+            <p>Watch our premium cab navigate the city — from signal stop to employee pickup — all in one seamless 3D experience.</p>
             <div class="hero-actions">
                 <a href="#contact" class="btn btn-primary">Request a Demo</a>
                 <a href="https://api.whatsapp.com/send?phone=919811414327" class="btn btn-secondary" target="_blank">WhatsApp Us</a>
             </div>
         </div>
-        <div class="scroll-indicator">
-            <div class="scroll-line"></div>
-            <span>Scroll to explore</span>
+        
+        <div class="scroll-indicator" style="position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%); z-index: 30; display: flex; flex-direction: column; align-items: center; gap: 0.5rem; color: #94A3B8; font-size: 0.85rem; animation: bounce 2s infinite;">
+            <div style="width: 1px; height: 45px; background: linear-gradient(to bottom, #F5A524, transparent);"></div>
+            <span>Scroll to drive</span>
         </div>
     </section>
 
@@ -633,32 +751,32 @@
             </div>
             <div class="services-grid">
                 <div class="service-card reveal reveal-delay-1">
-                    <div class="service-icon">🚗</div>
+                    <div class="service-icon-3d">🚗</div>
                     <h3>Corporate Travel</h3>
                     <p>Dedicated employee transport with fixed schedules, multiple pickups, and drop-offs across the city.</p>
                 </div>
                 <div class="service-card reveal reveal-delay-2">
-                    <div class="service-icon">✈️</div>
+                    <div class="service-icon-3d">✈️</div>
                     <h3>Airport Transfers</h3>
                     <p>Punctual airport pickups and drops with flight tracking and meet-and-greet service.</p>
                 </div>
                 <div class="service-card reveal reveal-delay-3">
-                    <div class="service-icon">🛣️</div>
+                    <div class="service-icon-3d">🛣️</div>
                     <h3>Outstation Trips</h3>
                     <p>Outstation cabs, buses, and tempo travellers for team trips and client visits across cities.</p>
                 </div>
                 <div class="service-card reveal reveal-delay-1">
-                    <div class="service-icon">🎯</div>
+                    <div class="service-icon-3d">🎯</div>
                     <h3>Spot Rental</h3>
                     <p>On-demand car rental by the hour or day with a professional chauffeur.</p>
                 </div>
                 <div class="service-card reveal reveal-delay-2">
-                    <div class="service-icon">🚌</div>
+                    <div class="service-icon-3d">🚌</div>
                     <h3>Shuttle Service</h3>
                     <p>AC coaches, buses, and tempo travellers for inter-building and office shuttle routes.</p>
                 </div>
                 <div class="service-card reveal reveal-delay-3">
-                    <div class="service-icon">🏫</div>
+                    <div class="service-icon-3d">🏫</div>
                     <h3>School Transport</h3>
                     <p>Safe, verified school fleet with GPS tracking and real-time parent notifications.</p>
                 </div>
@@ -666,8 +784,8 @@
         </div>
     </section>
 
-    <!-- Fleet Section with 3D -->
-    <section id="fleet" class="canvas-section" style="background: linear-gradient(180deg, #03060D 0%, #0B1121 100%);">
+    <!-- Fleet Section -->
+    <section id="fleet" class="canvas-section" style="background: linear-gradient(180deg, #020409 0%, #0B1121 100%);">
         <canvas id="fleet-canvas" class="webgl"></canvas>
         <div class="container">
             <div class="section-title reveal">
@@ -676,37 +794,37 @@
             </div>
             <div class="fleet-showcase">
                 <div class="fleet-card reveal reveal-delay-1">
-                    <div class="fleet-icon">🚕</div>
+                    <div class="fleet-icon-3d">🚕</div>
                     <h3>Hatchback</h3>
                     <p>Compact and efficient for solo commuters and quick city trips.</p>
                     <div class="fleet-capacity">1-3 Passengers</div>
                 </div>
                 <div class="fleet-card reveal reveal-delay-2">
-                    <div class="fleet-icon">🚗</div>
+                    <div class="fleet-icon-3d">🚗</div>
                     <h3>Sedan</h3>
                     <p>Comfortable executive travel for corporate clients and airport runs.</p>
                     <div class="fleet-capacity">1-4 Passengers</div>
                 </div>
                 <div class="fleet-card reveal reveal-delay-3">
-                    <div class="fleet-icon">🛻</div>
+                    <div class="fleet-icon-3d">🛻</div>
                     <h3>SUV</h3>
                     <p>Spacious and premium for outstation trips and small group travel.</p>
                     <div class="fleet-capacity">1-6 Passengers</div>
                 </div>
                 <div class="fleet-card reveal reveal-delay-1">
-                    <div class="fleet-icon">🌟</div>
+                    <div class="fleet-icon-3d">🌟</div>
                     <h3>Luxury</h3>
                     <p>Premium executive vehicles for VIP guests and leadership transport.</p>
                     <div class="fleet-capacity">1-4 Passengers</div>
                 </div>
                 <div class="fleet-card reveal reveal-delay-2">
-                    <div class="fleet-icon">🚐</div>
+                    <div class="fleet-icon-3d">🚐</div>
                     <h3>Tempo Traveller</h3>
                     <p>Group transport for teams, events, and outstation corporate trips.</p>
                     <div class="fleet-capacity">9-15 Passengers</div>
                 </div>
                 <div class="fleet-card reveal reveal-delay-3">
-                    <div class="fleet-icon">🚌</div>
+                    <div class="fleet-icon-3d">🚌</div>
                     <h3>AC Coach</h3>
                     <p>Full-size coaches for large employee shuttles and conference transport.</p>
                     <div class="fleet-capacity">20-50 Passengers</div>
@@ -747,52 +865,53 @@
         </div>
     </section>
 
-    <!-- Why Choose / Safety Section -->
+    <!-- Safety / 3D Orbit Section -->
     <section id="safety">
         <div class="container">
             <div class="section-title reveal">
                 <h2>Why Companies <span class="amber">Choose Us</span></h2>
                 <p>Built for safety, reliability, and zero-hassle corporate transport.</p>
             </div>
-            <div class="features-grid">
-                <div class="feature-card reveal reveal-delay-1">
-                    <div class="feature-icon">🛡️</div>
-                    <div class="feature-content">
+            <canvas id="safety-canvas" class="webgl"></canvas>
+            <div class="safety-grid">
+                <div class="safety-card reveal reveal-delay-1">
+                    <div class="safety-icon-3d">🛡️</div>
+                    <div>
                         <h3>Full Emphasis on Safety</h3>
                         <p>Police-verified drivers, GPS tracking, SOS alerts, and ride-sharing with emergency contacts.</p>
                     </div>
                 </div>
-                <div class="feature-card reveal reveal-delay-2">
-                    <div class="feature-icon">🕒</div>
-                    <div class="feature-content">
+                <div class="safety-card reveal reveal-delay-2">
+                    <div class="safety-icon-3d">🕒</div>
+                    <div>
                         <h3>24x7 Service</h3>
                         <p>Round-the-clock availability with a dedicated control room that always answers.</p>
                     </div>
                 </div>
-                <div class="feature-card reveal reveal-delay-3">
-                    <div class="feature-icon">💰</div>
-                    <div class="feature-content">
+                <div class="safety-card reveal reveal-delay-3">
+                    <div class="safety-icon-3d">💰</div>
+                    <div>
                         <h3>Surge-Free Guarantee</h3>
                         <p>Transparent, fixed pricing with no surprise surge charges — ever.</p>
                     </div>
                 </div>
-                <div class="feature-card reveal reveal-delay-1">
-                    <div class="feature-icon">📱</div>
-                    <div class="feature-content">
+                <div class="safety-card reveal reveal-delay-1">
+                    <div class="safety-icon-3d">📱</div>
+                    <div>
                         <h3>Real-Time Tracking</h3>
                         <p>Live GPS tracking for every ride with ETA updates shared with employees and admin.</p>
                     </div>
                 </div>
-                <div class="feature-card reveal reveal-delay-2">
-                    <div class="feature-icon">🧾</div>
-                    <div class="feature-content">
+                <div class="safety-card reveal reveal-delay-2">
+                    <div class="safety-icon-3d">🧾</div>
+                    <div>
                         <h3>Paperless Invoicing</h3>
                         <p>One monthly GST-compliant invoice with cost-centre breakdown for easy reconciliation.</p>
                     </div>
                 </div>
-                <div class="feature-card reveal reveal-delay-3">
-                    <div class="feature-icon">🏢</div>
-                    <div class="feature-content">
+                <div class="safety-card reveal reveal-delay-3">
+                    <div class="safety-icon-3d">🏢</div>
+                    <div>
                         <h3>Corporate Governance</h3>
                         <p>ISO 9001:2015 certified processes with full audit trails and compliance reporting.</p>
                     </div>
@@ -801,8 +920,8 @@
         </div>
     </section>
 
-    <!-- Clients Section with 3D -->
-    <section id="clients" class="canvas-section" style="background: #03060D;">
+    <!-- Clients Section -->
+    <section id="clients" class="canvas-section">
         <canvas id="clients-canvas" class="webgl"></canvas>
         <div class="container">
             <div class="section-title reveal">
@@ -841,7 +960,7 @@
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" style="background: #020409;">
+    <section id="contact" style="background: #010205;">
         <div class="container">
             <div class="section-title reveal">
                 <h2><span class="amber">Get in Touch</span></h2>
@@ -872,28 +991,28 @@
                         </div>
                     </div>
                     <div style="margin-top: 2rem;">
-                        <a href="https://www.linkedin.com/company/gunjan-cab-india/" target="_blank" style="display: inline-flex; align-items: center; gap: 0.5rem; color: #F5A524; text-decoration: none; font-weight: 600;">
+                        <a href="https://www.linkedin.com/company/gunjan-cab-india/" target="_blank" style="display: inline-flex; align-items: center; gap: 0.5rem; color: #F5A524; text-decoration: none; font-weight: 700;">
                             LinkedIn →
                         </a>
                     </div>
                 </div>
                 <div class="reveal reveal-delay-2">
-                    <form id="contact-form" style="background: rgba(30, 41, 59, 0.4); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 24px; padding: 2.5rem; backdrop-filter: blur(20px);">
-                        <div style="margin-bottom: 1.5rem;">
-                            <label style="display: block; color: #94A3B8; font-size: 0.9rem; margin-bottom: 0.5rem;">Full Name</label>
-                            <input type="text" required style="width: 100%; padding: 1rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: #FFFFFF; font-family: inherit;">
+                    <form id="contact-form" class="form-card">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" required>
                         </div>
-                        <div style="margin-bottom: 1.5rem;">
-                            <label style="display: block; color: #94A3B8; font-size: 0.9rem; margin-bottom: 0.5rem;">Work Email</label>
-                            <input type="email" required style="width: 100%; padding: 1rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: #FFFFFF; font-family: inherit;">
+                        <div class="form-group">
+                            <label>Work Email</label>
+                            <input type="email" required>
                         </div>
-                        <div style="margin-bottom: 1.5rem;">
-                            <label style="display: block; color: #94A3B8; font-size: 0.9rem; margin-bottom: 0.5rem;">Company Name</label>
-                            <input type="text" required style="width: 100%; padding: 1rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: #FFFFFF; font-family: inherit;">
+                        <div class="form-group">
+                            <label>Company Name</label>
+                            <input type="text" required>
                         </div>
-                        <div style="margin-bottom: 1.5rem;">
-                            <label style="display: block; color: #94A3B8; font-size: 0.9rem; margin-bottom: 0.5rem;">Monthly Ride Volume</label>
-                            <select style="width: 100%; padding: 1rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: #FFFFFF; font-family: inherit;">
+                        <div class="form-group">
+                            <label>Monthly Ride Volume</label>
+                            <select>
                                 <option>1-10 rides</option>
                                 <option>11-50 rides</option>
                                 <option>51-100 rides</option>
@@ -961,12 +1080,24 @@
         </div>
     </footer>
 
-    <!-- ============ THREE.JS 3D SCENES ============ -->
+    <!-- ============ THREE.JS 3D APPLICATION ============ -->
     <script>
-        // ============ NAV SCROLL EFFECT ============
+        // ============ GLOBAL STATE ============
+        let scrollY = 0;
+        let windowHeight = window.innerHeight;
+        
+        // ============ NAV SCROLL ============
         const navbar = document.getElementById('navbar');
         window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
+            const scrolled = window.scrollY;
+            scrollY = scrolled;
+            
+            // Progress bar
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            document.querySelector('.scroll-progress-bar').style.width = (winScroll / height * 100) + '%';
+            
+            if (scrolled > 50) {
                 navbar.classList.add('scrolled');
             } else {
                 navbar.classList.remove('scrolled');
@@ -974,7 +1105,7 @@
         });
 
         // ============ REVEAL ON SCROLL ============
-        const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+        const observerOptions = { threshold: 0.08, rootMargin: '0px 0px -60px 0px' };
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -1023,148 +1154,468 @@
             }, 2000);
         });
 
-        // ============ HERO 3D SCENE ============
+        // ============ HERO 3D CINEMATIC SCENE ============
         function initHeroScene() {
             const canvas = document.getElementById('hero-canvas');
             const scene = new THREE.Scene();
-            scene.fog = new THREE.FogExp2(0x03060D, 0.02);
+            scene.fog = new THREE.FogExp2(0x020409, 0.015);
 
-            const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
-            camera.position.set(0, 2, 7);
+            const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 200);
+            camera.position.set(0, 4, 10);
 
             const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
             renderer.setSize(window.innerWidth, window.innerHeight);
             renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
             renderer.toneMapping = THREE.ReinhardToneMapping;
             renderer.outputEncoding = THREE.sRGBEncoding;
+            renderer.shadowMap.enabled = true;
+            renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
-            // --- Lighting ---
-            const ambientLight = new THREE.AmbientLight(0x404040, 0.5);
+            // ---------- Lighting ----------
+            const ambientLight = new THREE.AmbientLight(0x404040, 0.4);
             scene.add(ambientLight);
 
-            const keyLight = new THREE.DirectionalLight(0xF5A524, 1.2);
-            keyLight.position.set(5, 8, 5);
+            const keyLight = new THREE.DirectionalLight(0xF5A524, 0.8);
+            keyLight.position.set(8, 10, 5);
+            keyLight.castShadow = true;
             scene.add(keyLight);
 
-            const fillLight = new THREE.DirectionalLight(0x4FA3FF, 0.7);
-            fillLight.position.set(-5, 3, -5);
+            const fillLight = new THREE.DirectionalLight(0x4FA3FF, 0.5);
+            fillLight.position.set(-8, 4, -5);
             scene.add(fillLight);
 
-            const rimLight = new THREE.SpotLight(0xFFFFFF, 3);
-            rimLight.position.set(0, 8, -8);
+            const rimLight = new THREE.SpotLight(0xFFFFFF, 2);
+            rimLight.position.set(0, 8, -10);
             rimLight.lookAt(0, 0, 0);
+            rimLight.castShadow = true;
             scene.add(rimLight);
 
-            // --- Build Premium Car ---
+            // ---------- Road ----------
+            const roadGeo = new THREE.PlaneGeometry(12, 60);
+            const roadMat = new THREE.MeshStandardMaterial({ color: 0x0A0B0F, roughness: 0.8, metalness: 0.1 });
+            const road = new THREE.Mesh(roadGeo, roadMat);
+            road.rotation.x = -Math.PI / 2;
+            road.position.y = 0.01;
+            road.receiveShadow = true;
+            scene.add(road);
+
+            // Lane markings
+            const markingGeo = new THREE.PlaneGeometry(0.15, 2);
+            const markingMat = new THREE.MeshStandardMaterial({ color: 0xFFFFFF, emissive: 0xFFFFFF, emissiveIntensity: 2 });
+            for (let i = -25; i <= 25; i += 4) {
+                const m = new THREE.Mesh(markingGeo, markingMat);
+                m.rotation.x = -Math.PI / 2;
+                m.position.set(0, 0.02, i * 2);
+                scene.add(m);
+            }
+
+            // ---------- Sidewalk ----------
+            const sidewalkGeo = new THREE.PlaneGeometry(6, 60);
+            const sidewalkMat = new THREE.MeshStandardMaterial({ color: 0x111218, roughness: 1 });
+            const sidewalkL = new THREE.Mesh(sidewalkGeo, sidewalkMat);
+            sidewalkL.rotation.x = -Math.PI / 2;
+            sidewalkL.position.set(-9, 0.02, 0);
+            sidewalkL.receiveShadow = true;
+            scene.add(sidewalkL);
+            const sidewalkR = sidewalkL.clone();
+            sidewalkR.position.set(9, 0.02, 0);
+            scene.add(sidewalkR);
+
+            // ---------- Buildings ----------
+            function createBuilding(x, z, width, height, depth) {
+                const group = new THREE.Group();
+                const body = new THREE.Mesh(
+                    new THREE.BoxGeometry(width, height, depth),
+                    new THREE.MeshStandardMaterial({ color: 0x151A26, roughness: 0.7 })
+                );
+                body.position.y = height / 2;
+                body.castShadow = true;
+                body.receiveShadow = true;
+                group.add(body);
+
+                // Windows
+                const winMat = new THREE.MeshStandardMaterial({ color: 0xF5A524, emissive: 0xF5A524, emissiveIntensity: 1.5 });
+                const rows = Math.floor(height / 3);
+                const cols = Math.floor(depth / 2);
+                for (let r = 0; r < rows; r++) {
+                    for (let c = 0; c < cols; c++) {
+                        if (Math.random() > 0.6) {
+                            const w = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.6, 0.1), winMat);
+                            w.position.set(
+                                (c - cols/2) * 2.2 + 0.5,
+                                (r - rows/2) * 3.2 + 1.5,
+                                depth/2 + 0.06
+                            );
+                            group.add(w);
+                        }
+                    }
+                }
+                group.position.set(x, 0, z);
+                scene.add(group);
+                return group;
+            }
+
+            createBuilding(-12, -15, 4, 12, 6);
+            createBuilding(12, -20, 5, 15, 7);
+            createBuilding(-18, -30, 3, 10, 5);
+            createBuilding(18, -35, 6, 18, 8);
+
+            // ---------- Streetlights ----------
+            function createStreetlight(x, z) {
+                const group = new THREE.Group();
+                const pole = new THREE.Mesh(
+                    new THREE.CylinderGeometry(0.12, 0.12, 6, 8),
+                    new THREE.MeshStandardMaterial({ color: 0x333333 })
+                );
+                pole.position.set(x, 3, z);
+                pole.castShadow = true;
+                group.add(pole);
+
+                const globe = new THREE.Mesh(
+                    new THREE.SphereGeometry(0.35, 12, 12),
+                    new THREE.MeshStandardMaterial({ color: 0xF5A524, emissive: 0xF5A524, emissiveIntensity: 3 })
+                );
+                globe.position.set(x, 6.2, z);
+                globe.castShadow = true;
+                group.add(globe);
+
+                scene.add(group);
+                return group;
+            }
+
+            createStreetlight(-11, -10);
+            createStreetlight(11, -15);
+            createStreetlight(-11, -25);
+            createStreetlight(11, -30);
+
+            // ---------- Traffic Signal ----------
+            const signalGroup = new THREE.Group();
+            const pole = new THREE.Mesh(
+                new THREE.CylinderGeometry(0.15, 0.15, 4, 8),
+                new THREE.MeshStandardMaterial({ color: 0x333333 })
+            );
+            pole.position.set(-5, 2, -2);
+            pole.castShadow = true;
+            signalGroup.add(pole);
+
+            const box = new THREE.Mesh(
+                new THREE.BoxGeometry(0.8, 1.2, 0.4),
+                new THREE.MeshStandardMaterial({ color: 0x1A1A1A, metalness: 0.8, roughness: 0.1 })
+            );
+            box.position.set(-5, 4, -1.8);
+            box.castShadow = true;
+            signalGroup.add(box);
+
+            const lights = [];
+            ['#ff3333', '#ffaa00', '#33cc33'].forEach((color, i) => {
+                const light = new THREE.Mesh(
+                    new THREE.SphereGeometry(0.18, 16, 16),
+                    new THREE.MeshStandardMaterial({ color: color, emissive: color, emissiveIntensity: 0 })
+                );
+                light.position.set(-5, 4.4 - i * 0.35, -1.45);
+                scene.add(light);
+                lights.push(light);
+            });
+            scene.add(signalGroup);
+
+            // ---------- Car Build ----------
             function buildCar() {
                 const group = new THREE.Group();
 
                 // Main body
                 const body = new THREE.Mesh(
-                    new THREE.BoxGeometry(2.4, 0.85, 4.6),
-                    new THREE.MeshStandardMaterial({ color: 0x1E293B, metalness: 0.9, roughness: 0.15 })
+                    new THREE.BoxGeometry(2.2, 0.9, 4.4),
+                    new THREE.MeshStandardMaterial({ color: 0x0F172A, metalness: 0.85, roughness: 0.12 })
                 );
-                body.position.y = 0.65;
+                body.position.y = 0.75;
+                body.castShadow = true;
+                body.receiveShadow = true;
                 group.add(body);
 
                 // Roof
                 const roofShape = new THREE.Shape();
-                roofShape.moveTo(-1.0, 0);
-                roofShape.lineTo(-0.45, 1.1);
-                roofShape.lineTo(0.45, 1.1);
-                roofShape.lineTo(1.0, 0);
-                roofShape.lineTo(-1.0, 0);
-                const roofGeom = new THREE.ExtrudeGeometry(roofShape, { depth: 4.2, bevelEnabled: false });
-                const roof = new THREE.Mesh(roofGeom, new THREE.MeshStandardMaterial({ color: 0x0F172A, metalness: 0.95, roughness: 0.1 }));
-                roof.position.set(0, 1.5, 0);
+                roofShape.moveTo(-0.95, 0);
+                roofShape.lineTo(-0.5, 1.05);
+                roofShape.lineTo(0.5, 1.05);
+                roofShape.lineTo(0.95, 0);
+                roofShape.lineTo(-0.95, 0);
+                const roofGeom = new THREE.ExtrudeGeometry(roofShape, { depth: 3.8, bevelEnabled: false });
+                const roof = new THREE.Mesh(roofGeom, new THREE.MeshStandardMaterial({ color: 0x0A0B0F, metalness: 0.9, roughness: 0.08 }));
+                roof.position.set(0, 1.7, 0);
                 roof.rotation.x = Math.PI / 2;
+                roof.castShadow = true;
                 group.add(roof);
 
-                // Wheels
-                const wheelGeo = new THREE.CylinderGeometry(0.42, 0.42, 0.55, 24);
-                const wheelMat = new THREE.MeshStandardMaterial({ color: 0x0B0C10, metalness: 0.3, roughness: 0.4 });
-                
-                function createWheel(x, z) {
-                    const wheel = new THREE.Mesh(wheelGeo, wheelMat);
-                    wheel.rotation.z = Math.PI / 2;
-                    wheel.position.set(x, 0.35, z);
-                    return wheel;
-                }
-                group.add(createWheel(-1.2, 1.5));
-                group.add(createWheel(1.2, 1.5));
-                group.add(createWheel(-1.2, -1.5));
-                group.add(createWheel(1.2, -1.5));
+                // Windows (tinted)
+                const winMat = new THREE.MeshStandardMaterial({ color: 0x1a2330, transparent: true, opacity: 0.6 });
+                const winL = new THREE.Mesh(new THREE.PlaneGeometry(1.6, 1.2), winMat);
+                winL.position.set(-1.12, 1.55, 0);
+                winL.rotation.y = Math.PI / 2;
+                group.add(winL);
+                const winR = winL.clone();
+                winR.position.set(1.12, 1.55, 0);
+                winR.rotation.y = -Math.PI / 2;
+                group.add(winR);
 
-                // Wheel rims (amber)
-                const rimGeo = new THREE.CylinderGeometry(0.18, 0.18, 0.5, 16);
+                // Door (separate for opening animation)
+                const door = new THREE.Mesh(
+                    new THREE.BoxGeometry(1.3, 0.85, 0.08),
+                    new THREE.MeshStandardMaterial({ color: 0x0F172A, metalness: 0.85, roughness: 0.12 })
+                );
+                door.position.set(-0.55, 0.85, 1.46);
+                door.castShadow = true;
+                group.add(door);
+                group.userData.door = door;
+                group.userData.doorOpen = false;
+
+                // Wheels
+                const wheelGeo = new THREE.CylinderGeometry(0.45, 0.45, 0.6, 24);
+                const wheelMat = new THREE.MeshStandardMaterial({ color: 0x050608, metalness: 0.2, roughness: 0.6 });
+                function createWheel(x, z) {
+                    const w = new THREE.Mesh(wheelGeo, wheelMat);
+                    w.rotation.z = Math.PI / 2;
+                    w.position.set(x, 0.45, z);
+                    w.castShadow = true;
+                    return w;
+                }
+                group.add(createWheel(-1.15, 1.4));
+                group.add(createWheel(1.15, 1.4));
+                group.add(createWheel(-1.15, -1.4));
+                group.add(createWheel(1.15, -1.4));
+
+                // Rims
+                const rimGeo = new THREE.CylinderGeometry(0.2, 0.2, 0.55, 16);
                 const rimMat = new THREE.MeshStandardMaterial({ color: 0xF5A524, metalness: 0.95, roughness: 0.1 });
                 function createRim(x, z) {
-                    const rim = new THREE.Mesh(rimGeo, rimMat);
-                    rim.rotation.z = Math.PI / 2;
-                    rim.position.set(x, 0.35, z);
-                    return rim;
+                    const r = new THREE.Mesh(rimGeo, rimMat);
+                    r.rotation.z = Math.PI / 2;
+                    r.position.set(x, 0.45, z);
+                    return r;
                 }
-                group.add(createRim(-1.2, 1.5));
-                group.add(createRim(1.2, 1.5));
-                group.add(createRim(-1.2, -1.5));
-                group.add(createRim(1.2, -1.5));
+                group.add(createRim(-1.15, 1.4));
+                group.add(createRim(1.15, 1.4));
+                group.add(createRim(-1.15, -1.4));
+                group.add(createRim(1.15, -1.4));
 
-                // Headlights
-                const lightMat = new THREE.MeshStandardMaterial({ color: 0xF5A524, emissive: 0xF5A524, emissiveIntensity: 3 });
-                const headL = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.28, 0.55), lightMat);
-                headL.position.set(-1.22, 0.75, 1.75);
-                group.add(headL);
-                const headR = headL.clone();
-                headR.position.set(1.22, 0.75, 1.75);
-                group.add(headR);
+                // Headlights (emissive)
+                const hlMat = new THREE.MeshStandardMaterial({ color: 0xF5A524, emissive: 0xF5A524, emissiveIntensity: 5 });
+                const hlL = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.3, 0.55), hlMat);
+                hlL.position.set(-1.18, 0.95, 1.72);
+                group.add(hlL);
+                const hlR = hlL.clone();
+                hlR.position.set(1.18, 0.95, 1.72);
+                group.add(hlR);
 
                 // Grille
                 const grille = new THREE.Mesh(
-                    new THREE.BoxGeometry(0.9, 0.45, 0.13),
-                    new THREE.MeshStandardMaterial({ color: 0x03060D, metalness: 1, roughness: 0 })
+                    new THREE.BoxGeometry(0.7, 0.5, 0.11),
+                    new THREE.MeshStandardMaterial({ color: 0x050608, metalness: 1, roughness: 0 })
                 );
-                grille.position.set(0, 0.65, 1.82);
+                grille.position.set(0, 0.75, 1.76);
                 group.add(grille);
+
+                // Side mirrors
+                const mirrorMat = new THREE.MeshStandardMaterial({ color: 0x0F172A, metalness: 0.8, roughness: 0.1 });
+                const mirrorL = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.25, 0.35), mirrorMat);
+                mirrorL.position.set(-1.25, 1.1, 0.6);
+                mirrorL.rotation.y = 0.5;
+                group.add(mirrorL);
+                const mirrorR = mirrorL.clone();
+                mirrorR.position.set(1.25, 1.1, 0.6);
+                mirrorR.rotation.y = -0.5;
+                group.add(mirrorR);
 
                 return group;
             }
 
             const car = buildCar();
+            car.position.set(0, 0, 0);
             scene.add(car);
 
-            // Reflective floor
-            const floorGeo = new THREE.PlaneGeometry(60, 60);
-            const floorMat = new THREE.MeshStandardMaterial({ color: 0x03060D, metalness: 1, roughness: 0.08 });
-            const floor = new THREE.Mesh(floorGeo, floorMat);
-            floor.rotation.x = -Math.PI / 2;
-            floor.position.y = 0;
-            scene.add(floor);
+            // ---------- Employee Figure ----------
+            function buildEmployee() {
+                const group = new THREE.Group();
+                const skin = 0xE3BFA0;
+                const shirt = 0x334155;
+                const pants = 0x1E293B;
 
-            // Floating particles
-            const particlesGeo = new THREE.BufferGeometry();
-            const particlesCount = 200;
-            const posArray = new Float32Array(particlesCount * 3);
-            for (let i = 0; i < particlesCount * 3; i++) {
-                posArray[i] = (Math.random() - 0.5) * 40;
+                // Head
+                const head = new THREE.Mesh(new THREE.SphereGeometry(0.22, 16, 16), new THREE.MeshStandardMaterial({ color: skin }));
+                head.position.y = 1.6;
+                group.add(head);
+
+                // Body
+                const body = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.22, 0.7, 12), new THREE.MeshStandardMaterial({ color: shirt }));
+                body.position.y = 1.15;
+                group.add(body);
+
+                // Arms
+                const armGeo = new THREE.CylinderGeometry(0.08, 0.08, 0.5, 8);
+                const armMat = new THREE.MeshStandardMaterial({ color: shirt });
+                const armL = new THREE.Mesh(armGeo, armMat);
+                armL.position.set(-0.32, 1.25, 0);
+                armL.rotation.z = 0.4;
+                armL.rotation.x = 0.2;
+                group.add(armL);
+                const armR = armL.clone();
+                armR.position.set(0.32, 1.25, 0);
+                armR.rotation.z = -0.4;
+                armR.rotation.x = 0.2;
+                group.add(armR);
+
+                // Legs
+                const legGeo = new THREE.CylinderGeometry(0.1, 0.1, 0.6, 8);
+                const legMat = new THREE.MeshStandardMaterial({ color: pants });
+                const legL = new THREE.Mesh(legGeo, legMat);
+                legL.position.set(-0.13, 0.55, 0);
+                group.add(legL);
+                const legR = legL.clone();
+                legR.position.set(0.13, 0.55, 0);
+                group.add(legR);
+
+                group.userData.walkPhase = 0;
+                return group;
             }
-            particlesGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-            const particlesMat = new THREE.PointsMaterial({
-                size: 0.06, color: 0xF5A524, transparent: true, opacity: 0.5
-            });
-            const particles = new THREE.Points(particlesGeo, particlesMat);
-            scene.add(particles);
 
-            // --- Animation ---
+            const employee = buildEmployee();
+            employee.position.set(-6, 0, 3);
+            scene.add(employee);
+
+            // ---------- Animation State ----------
+            const state = {
+                progress: 0, // 0 to 1 based on scroll
+                carZ: 0,
+                carX: 0,
+                doorOpen: 0,
+                employeeX: -6,
+                employeeZ: 3,
+                employeeWalking: false,
+                employeeInCar: false,
+                signalState: 'RED', // RED, GREEN
+                carMoving: true,
+                wheelsRotation: 0
+            };
+
+            // ---------- Animation Loop ----------
             let time = 0;
             function animate() {
                 requestAnimationFrame(animate);
-                time += 0.01;
+                time += 0.016;
 
-                car.rotation.y = Math.sin(time * 0.4) * 0.12;
-                car.position.y = 0.65 + Math.sin(time * 0.8) * 0.1;
+                // Update scroll progress to animation state
+                const heroRect = document.querySelector('.hero').getBoundingClientRect();
+                const heroProgress = 1 - (heroRect.top / windowHeight);
+                const clampedProgress = Math.max(0, Math.min(1, heroProgress * 1.5));
 
-                particles.rotation.y = time * 0.04;
-                particles.rotation.x = time * 0.015;
+                // Signal light cycling
+                const signalTime = time * 2;
+                const signalCycle = Math.floor(signalTime / 4) % 2;
+                lights[0].material.emissiveIntensity = signalCycle === 0 ? 4 : 0;
+                lights[1].material.emissiveIntensity = 0;
+                lights[2].material.emissiveIntensity = signalCycle === 1 ? 4 : 0;
+
+                // Car movement based on scroll progress
+                if (clampedProgress < 0.25) {
+                    // Driving toward signal
+                    state.carMoving = true;
+                    state.carZ = -20 + (clampedProgress / 0.25) * 15;
+                    state.doorOpen = 0;
+                    state.employeeWalking = false;
+                    state.employeeInCar = false;
+                } else if (clampedProgress < 0.35) {
+                    // Stopped at signal
+                    state.carMoving = false;
+                    state.carZ = -5;
+                    state.doorOpen = 0;
+                } else if (clampedProgress < 0.5) {
+                    // Door opens
+                    state.carMoving = false;
+                    state.carZ = -5;
+                    state.doorOpen = (clampedProgress - 0.35) / 0.15;
+                    if (!state.employeeWalking) {
+                        state.employeeWalking = true;
+                    }
+                } else if (clampedProgress < 0.65) {
+                    // Employee walks to car and enters
+                    state.carMoving = false;
+                    state.carZ = -5;
+                    state.doorOpen = 1;
+                    const walkProgress = (clampedProgress - 0.5) / 0.15;
+                    state.employeeX = -6 + walkProgress * 5.5;
+                    state.employeeZ = 3 - walkProgress * 2.5;
+                    state.employeeWalking = true;
+                    if (walkProgress > 0.8) state.employeeInCar = true;
+                } else if (clampedProgress < 0.75) {
+                    // Door closes, prepare to drive away
+                    state.carMoving = false;
+                    state.carZ = -5;
+                    state.doorOpen = 1 - (clampedProgress - 0.65) / 0.1;
+                    state.employeeInCar = true;
+                } else {
+                    // Drives away
+                    state.carMoving = true;
+                    state.carZ = -5 - ((clampedProgress - 0.75) / 0.25) * 20;
+                    state.doorOpen = 0;
+                    state.employeeInCar = false;
+                }
+
+                // Apply door rotation
+                const door = car.userData.door;
+                if (door) {
+                    door.rotation.y = state.doorOpen * 1.2;
+                    door.position.x = -0.55 + Math.sin(state.doorOpen * 1.2) * 0.6;
+                    door.position.z = 1.46 + (1 - Math.cos(state.doorOpen * 1.2)) * 0.4;
+                }
+
+                // Apply car position
+                car.position.z = state.carZ;
+                car.position.y = 0.45 + Math.sin(time * 3) * 0.02;
+
+                // Wheel rotation
+                if (state.carMoving) {
+                    state.wheelsRotation += 0.15;
+                }
+                car.children.forEach(child => {
+                    if (child.geometry && child.geometry.type === 'CylinderGeometry' && child.material.color.getHex() === 0x050608) {
+                        child.rotation.z = Math.PI / 2 + state.wheelsRotation;
+                    }
+                });
+
+                // Employee movement
+                if (state.employeeInCar) {
+                    // Move with car
+                    employee.position.set(0, 0.9, state.carZ + 0.5);
+                    employee.rotation.y = 0;
+                    employee.visible = true;
+                } else if (state.employeeWalking) {
+                    employee.position.set(state.employeeX, 0, state.employeeZ);
+                    employee.rotation.y = state.employeeX > -0.5 ? Math.PI : 0;
+                    // Walk animation
+                    employee.children.forEach((child, i) => {
+                        if (child.geometry && child.geometry.type === 'CylinderGeometry') {
+                            const amp = Math.sin(time * 10 + i) * 0.3;
+                            if (i === 3 || i === 4) { // legs
+                                child.rotation.x = amp;
+                            }
+                        }
+                    });
+                    employee.visible = true;
+                } else {
+                    employee.position.set(-6, 0, 3);
+                    employee.rotation.y = 0;
+                    employee.visible = true;
+                }
+
+                // Road marking scroll effect
+                const roadMarkings = scene.children.filter(c => c.geometry && c.geometry.type === 'PlaneGeometry' && c.material.emissive && c.position.z !== undefined && Math.abs(c.position.x) < 0.2);
+                roadMarkings.forEach(m => {
+                    m.position.z += state.carMoving ? 0.15 : 0;
+                    if (m.position.z > 30) m.position.z = -30;
+                });
+
+                // Camera subtle movement
+                camera.position.x = Math.sin(time * 0.5) * 0.5;
+                camera.lookAt(0, 1, state.carZ - 2);
 
                 renderer.render(scene, camera);
             }
@@ -1176,30 +1627,28 @@
                 renderer.setSize(window.innerWidth, window.innerHeight);
             });
         }
-        initHeroScene();
 
-        // ============ FLEET 3D SCENE (Floating Vehicles) ============
+        // ============ FLEET 3D SCENE ============
         function initFleetScene() {
             const canvas = document.getElementById('fleet-canvas');
             const scene = new THREE.Scene();
-            scene.background = null;
             
             const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
-            camera.position.set(0, 0, 8);
+            camera.position.set(0, 2, 8);
 
             const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
             renderer.setSize(window.innerWidth, window.innerHeight);
             renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
             renderer.outputEncoding = THREE.sRGBEncoding;
 
-            const ambientLight = new THREE.AmbientLight(0xFFFFFF, 0.6);
+            const ambientLight = new THREE.AmbientLight(0xFFFFFF, 0.5);
             scene.add(ambientLight);
             const dirLight = new THREE.DirectionalLight(0xF5A524, 1);
             dirLight.position.set(5, 10, 7);
             scene.add(dirLight);
 
-            // Create floating geometric vehicle shapes
-            const vehicles = [];
+            // Simple floating car shapes
+            const cars = [];
             const positions = [
                 [-3, 1, 0], [-1, -1, 0], [1, 1, 0], [3, -1, 0],
                 [-2, -3, 0], [2, 3, 0], [0, 0, 0]
@@ -1209,7 +1658,6 @@
             positions.forEach((pos, i) => {
                 const group = new THREE.Group();
                 
-                // Car body
                 const body = new THREE.Mesh(
                     new THREE.BoxGeometry(1.2, 0.5, 2.2),
                     new THREE.MeshStandardMaterial({ color: colors[i], metalness: 0.8, roughness: 0.2 })
@@ -1217,7 +1665,6 @@
                 body.position.y = 0.4;
                 group.add(body);
 
-                // Roof
                 const roof = new THREE.Mesh(
                     new THREE.BoxGeometry(0.8, 0.4, 1.4),
                     new THREE.MeshStandardMaterial({ color: 0x0F172A, metalness: 0.9, roughness: 0.1 })
@@ -1225,7 +1672,6 @@
                 roof.position.set(0, 0.85, 0);
                 group.add(roof);
 
-                // Wheels
                 const wheelGeo = new THREE.CylinderGeometry(0.25, 0.25, 0.35, 16);
                 const wheelMat = new THREE.MeshStandardMaterial({ color: 0x0B0C10 });
                 const w1 = new THREE.Mesh(wheelGeo, wheelMat);
@@ -1244,7 +1690,7 @@
 
                 group.position.set(...pos);
                 scene.add(group);
-                vehicles.push({ mesh: group, speed: 0.5 + Math.random() * 0.5, offset: Math.random() * Math.PI * 2 });
+                cars.push({ mesh: group, speed: 0.5 + Math.random() * 0.5, offset: Math.random() * Math.PI * 2, baseY: pos[1] });
             });
 
             let time = 0;
@@ -1252,10 +1698,10 @@
                 requestAnimationFrame(animate);
                 time += 0.01;
 
-                vehicles.forEach((v, i) => {
-                    v.mesh.position.y = positions[i][1] + Math.sin(time * v.speed + v.offset) * 0.4;
-                    v.mesh.rotation.y = Math.sin(time * 0.3 + i) * 0.1;
-                    v.mesh.rotation.x = Math.cos(time * 0.2 + i) * 0.05;
+                cars.forEach((c, i) => {
+                    c.mesh.position.y = c.baseY + Math.sin(time * c.speed + c.offset) * 0.3;
+                    c.mesh.rotation.y = Math.sin(time * 0.3 + i) * 0.1;
+                    c.mesh.rotation.x = Math.cos(time * 0.2 + i) * 0.05;
                 });
 
                 renderer.render(scene, camera);
@@ -1268,9 +1714,108 @@
                 renderer.setSize(window.innerWidth, window.innerHeight);
             });
         }
-        initFleetScene();
 
-        // ============ CLIENTS 3D SCENE (Floating Logos) ============
+        // ============ SAFETY 3D ORBIT (Earth + Satellites) ============
+        function initSafetyScene() {
+            const canvas = document.getElementById('safety-canvas');
+            const scene = new THREE.Scene();
+            
+            const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+            camera.position.set(0, 0, 10);
+
+            const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.outputEncoding = THREE.sRGBEncoding;
+
+            const ambientLight = new THREE.AmbientLight(0xFFFFFF, 0.4);
+            scene.add(ambientLight);
+            const pointLight = new THREE.PointLight(0xF5A524, 2);
+            pointLight.position.set(5, 5, 5);
+            scene.add(pointLight);
+
+            // Earth
+            const earthGeo = new THREE.SphereGeometry(2.5, 32, 32);
+            const earthMat = new THREE.MeshStandardMaterial({ 
+                color: 0x0B1B2B,
+                metalness: 0.3,
+                roughness: 0.4,
+                emissive: 0x020409
+            });
+            const earth = new THREE.Mesh(earthGeo, earthMat);
+            scene.add(earth);
+
+            // Atmosphere glow
+            const glowGeo = new THREE.SphereGeometry(2.6, 32, 32);
+            const glowMat = new THREE.MeshBasicMaterial({ 
+                color: 0xF5A524, 
+                transparent: true, 
+                opacity: 0.15,
+                side: THREE.BackSide
+            });
+            const glow = new THREE.Mesh(glowGeo, glowMat);
+            scene.add(glow);
+
+            // Satellites
+            const satellites = [];
+            for (let i = 0; i < 6; i++) {
+                const satGeo = new THREE.BoxGeometry(0.2, 0.2, 0.3);
+                const satMat = new THREE.MeshStandardMaterial({ color: 0xF5A524, metalness: 0.8, roughness: 0.2 });
+                const sat = new THREE.Mesh(satGeo, satMat);
+                const angle = (i / 6) * Math.PI * 2;
+                sat.position.set(Math.cos(angle) * 5, Math.sin(angle) * 2, 0);
+                scene.add(sat);
+                satellites.push({ mesh: sat, angle, radius: 5, height: Math.sin(angle) * 2 });
+            }
+
+            // Connection lines
+            const lineMaterial = new THREE.LineBasicMaterial({ color: 0xF5A524, transparent: true, opacity: 0.3 });
+            const lines = [];
+            satellites.forEach(s => {
+                const geo = new THREE.BufferGeometry().setFromPoints([
+                    new THREE.Vector3(0, 0, 0),
+                    new THREE.Vector3(s.mesh.position.x, s.mesh.position.y, s.mesh.position.z)
+                ]);
+                const line = new THREE.Line(geo, lineMaterial);
+                scene.add(line);
+                lines.push({ mesh: line, sat: s });
+            });
+
+            let time = 0;
+            function animate() {
+                requestAnimationFrame(animate);
+                time += 0.01;
+
+                earth.rotation.y = time * 0.1;
+                glow.rotation.y = time * 0.1;
+
+                satellites.forEach((s, i) => {
+                    s.angle += 0.01 * (0.8 + i * 0.1);
+                    s.mesh.position.x = Math.cos(s.angle) * s.radius;
+                    s.mesh.position.y = Math.sin(s.angle * 1.2) * 1.5 + Math.sin(time) * 0.3;
+                    s.mesh.position.z = Math.sin(s.angle) * s.radius * 0.5;
+                    s.mesh.rotation.y = time * 0.5;
+                    s.mesh.rotation.x = time * 0.3;
+
+                    lines[i].mesh.geometry.setFromPoints([
+                        new THREE.Vector3(0, 0, 0),
+                        new THREE.Vector3(s.mesh.position.x, s.mesh.position.y, s.mesh.position.z)
+                    ]);
+                    lines[i].mesh.geometry.attributes.position.needsUpdate = true;
+                });
+
+                renderer.render(scene, camera);
+            }
+            animate();
+
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        }
+
+        // ============ CLIENTS 3D SCENE ============
         function initClientsScene() {
             const canvas = document.getElementById('clients-canvas');
             const scene = new THREE.Scene();
@@ -1289,7 +1834,6 @@
             pointLight.position.set(5, 5, 5);
             scene.add(pointLight);
 
-            // Create floating 3D blocks that represent client companies
             const blocks = [];
             for (let i = 0; i < 12; i++) {
                 const geo = new THREE.BoxGeometry(0.8, 0.8, 0.8);
@@ -1335,6 +1879,11 @@
                 renderer.setSize(window.innerWidth, window.innerHeight);
             });
         }
+
+        // ============ INIT ALL SCENES ============
+        initHeroScene();
+        initFleetScene();
+        initSafetyScene();
         initClientsScene();
     </script>
 </body>
