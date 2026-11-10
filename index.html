@@ -1,0 +1,1341 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gunjan Cab India | Premium Employee Transport</title>
+    <meta name="description" content="Own fleet and vetted partner network. GPS-tracked employee transport for corporates across India. One monthly GST invoice. 24x7 control room.">
+    
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230B1B2B'/%3E%3Cpath d='M30 50 L50 30 L70 50 L50 70 Z' fill='%23F5A524'/%3E%3C/svg%3E">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Three.js via CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/EffectComposer.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/RenderPass.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/ShaderPass.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/CopyShader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/LuminosityHighPassShader.js"></script>
+    
+    <style>
+        /* ============ RESET & BASE ============ */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        html { scroll-behavior: smooth; font-size: 16px; }
+        
+        body {
+            font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #03060D;
+            color: #FFFFFF;
+            overflow-x: hidden;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #03060D; }
+        ::-webkit-scrollbar-thumb { background: #F5A524; border-radius: 4px; }
+        
+        /* ============ UTILITIES ============ */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            position: relative;
+            z-index: 20;
+        }
+        
+        h1, h2, h3, h4 { font-weight: 700; letter-spacing: -0.02em; }
+        
+        h2 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            text-align: center;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #FFFFFF 0%, #F5A524 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .section-title { text-align: center; margin-bottom: 4rem; }
+        .section-title p {
+            color: #94A3B8;
+            font-size: 1.125rem;
+            max-width: 600px;
+            margin: 1rem auto 0;
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            color: #94A3B8;
+            font-size: 1.125rem;
+            max-width: 700px;
+            margin: 0 auto 3rem;
+        }
+        
+        /* ============ BUTTONS ============ */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #F5A524 0%, #D97706 100%);
+            color: #03060D;
+            box-shadow: 0 10px 30px -10px rgba(245, 165, 36, 0.4);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 40px -15px rgba(245, 165, 36, 0.6);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: #FFFFFF;
+            border: 2px solid #334155;
+            backdrop-filter: blur(10px);
+        }
+        
+        .btn-secondary:hover {
+            border-color: #F5A524;
+            color: #F5A524;
+        }
+        
+        /* ============ NAVIGATION ============ */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.5rem 0;
+            z-index: 1000;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        nav.scrolled {
+            padding: 1rem 0;
+            background: rgba(3, 6, 13, 0.95);
+            border-bottom-color: rgba(245, 165, 36, 0.3);
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #FFFFFF;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            z-index: 1001;
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #F5A524 0%, #D97706 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 20px rgba(245, 165, 36, 0.4);
+        }
+        
+        .nav-links { display: flex; gap: 2rem; align-items: center; }
+        .nav-links a {
+            color: #CBD5E1;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+        }
+        .nav-links a:hover { color: #F5A524; }
+        
+        .nav-cta { display: none; }
+        
+        /* ============ HERO SECTION ============ */
+        .hero {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: #03060D;
+        }
+        
+        #hero-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 20;
+            text-align: center;
+            max-width: 900px;
+            padding: 0 1.5rem;
+        }
+        
+        .hero-kicker {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(245, 165, 36, 0.1);
+            border: 1px solid rgba(245, 165, 36, 0.3);
+            border-radius: 50px;
+            color: #F5A524;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            backdrop-filter: blur(10px);
+            animation: fadeInUp 0.8s ease forwards;
+            opacity: 0;
+        }
+        
+        .hero-dot {
+            width: 8px;
+            height: 8px;
+            background: #F5A524;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #F5A524;
+        }
+        
+        .hero h1 {
+            font-size: clamp(3rem, 7vw, 5rem);
+            line-height: 1.05;
+            margin-bottom: 1.5rem;
+            color: #FFFFFF;
+            animation: fadeInUp 0.8s ease 0.2s forwards;
+            opacity: 0;
+        }
+        
+        .hero h1 .amber { color: #F5A524; }
+        
+        .hero p {
+            font-size: clamp(1.125rem, 2vw, 1.5rem);
+            color: #94A3B8;
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: fadeInUp 0.8s ease 0.4s forwards;
+            opacity: 0;
+        }
+        
+        .hero-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 0.8s ease 0.6s forwards;
+            opacity: 0;
+        }
+        
+        /* ============ SCROLL INDICATOR ============ */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 20;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            color: #94A3B8;
+            font-size: 0.875rem;
+            animation: bounce 2s infinite;
+        }
+        
+        .scroll-line {
+            width: 1px;
+            height: 40px;
+            background: linear-gradient(to bottom, #F5A524, transparent);
+        }
+        
+        /* ============ SECTIONS ============ */
+        section {
+            position: relative;
+            padding: 6rem 0;
+            z-index: 20;
+        }
+        
+        .canvas-section {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        section canvas.webgl {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s ease;
+        }
+        
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+        
+        /* ============ SERVICES GRID ============ */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .service-card {
+            background: rgba(30, 41, 59, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: 2.5rem 2rem;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(20px);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, rgba(245, 165, 36, 0.05) 0%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(245, 165, 36, 0.4);
+            background: rgba(30, 41, 59, 0.8);
+        }
+        
+        .service-card:hover::before { opacity: 1; }
+        
+        .service-icon {
+            width: 60px; height: 60px;
+            background: linear-gradient(135deg, #F5A524 0%, #D97706 100%);
+            border-radius: 16px;
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 10px 30px -10px rgba(245, 165, 36, 0.3);
+        }
+        
+        .service-card h3 {
+            font-size: 1.25rem; margin-bottom: 0.75rem; color: #FFFFFF;
+        }
+        .service-card p {
+            color: #94A3B8; font-size: 0.95rem; line-height: 1.6;
+        }
+        
+        /* ============ FLEET SHOWCASE ============ */
+        .fleet-showcase {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+        
+        .fleet-card {
+            background: rgba(30, 41, 59, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(15px);
+        }
+        
+        .fleet-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(245, 165, 36, 0.3);
+            background: rgba(30, 41, 59, 0.7);
+        }
+        
+        .fleet-icon {
+            width: 80px; height: 80px;
+            margin: 0 auto 1.5rem;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2rem;
+        }
+        
+        .fleet-card h3 { font-size: 1.25rem; margin-bottom: 0.5rem; color: #FFFFFF; }
+        .fleet-card p { color: #94A3B8; font-size: 0.9rem; margin-bottom: 1rem; }
+        
+        .fleet-capacity {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(245, 165, 36, 0.1);
+            color: #F5A524;
+            border-radius: 50px;
+            font-size: 0.85rem; font-weight: 600;
+        }
+        
+        /* ============ STATS ============ */
+        .stats-section {
+            background: linear-gradient(180deg, rgba(245, 165, 36, 0.05) 0%, transparent 100%);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+        
+        .stat-item { text-align: center; padding: 2rem; }
+        .stat-number {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800; color: #FFFFFF;
+            display: block; margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #FFFFFF 0%, #F5A524 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .stat-label { color: #94A3B8; font-size: 1rem; font-weight: 500; }
+        
+        /* ============ WHY CHOOSE ============ */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .feature-card {
+            background: rgba(30, 41, 59, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 20px;
+            padding: 2rem;
+            display: flex; gap: 1.5rem; align-items: flex-start;
+            transition: all 0.4s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateX(10px);
+            border-color: rgba(245, 165, 36, 0.3);
+        }
+        
+        .feature-icon {
+            width: 50px; height: 50px;
+            background: rgba(245, 165, 36, 0.1);
+            border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+            color: #F5A524; flex-shrink: 0;
+        }
+        
+        .feature-content h3 { font-size: 1.125rem; margin-bottom: 0.5rem; color: #FFFFFF; }
+        .feature-content p { color: #94A3B8; font-size: 0.95rem; line-height: 1.5; }
+        
+        /* ============ CLIENTS ============ */
+        .clients-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 2rem 3rem;
+            align-items: center; justify-items: center;
+            opacity: 0.6;
+            transition: opacity 0.4s ease;
+        }
+        .clients-grid:hover { opacity: 0.85; }
+        
+        .client-logo {
+            width: 100%; height: 70px;
+            display: flex; align-items: center; justify-content: center;
+            filter: grayscale(100%) brightness(0.3);
+            transition: filter 0.4s ease;
+        }
+        .client-logo:hover { filter: grayscale(0%) brightness(1); }
+        .client-logo img { max-width: 90%; max-height: 90%; object-fit: contain; }
+        
+        /* ============ CTA ============ */
+        .cta-section {
+            background: linear-gradient(135deg, #0B1B2B 0%, #03060D 100%);
+            border: 1px solid rgba(245, 165, 36, 0.2);
+            border-radius: 40px;
+            padding: 5rem 3rem;
+            text-align: center;
+            position: relative; overflow: hidden;
+        }
+        .cta-section::before {
+            content: ''; position: absolute;
+            top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(245, 165, 36, 0.1) 0%, transparent 50%);
+            animation: rotate 20s linear infinite;
+        }
+        .cta-content { position: relative; z-index: 10; }
+        .cta-content h2 { font-size: clamp(2rem, 4vw, 3rem); margin-bottom: 1rem; }
+        .cta-content p { color: #94A3B8; font-size: 1.125rem; margin-bottom: 2rem; }
+        
+        /* ============ FOOTER ============ */
+        footer {
+            background: #020409;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 5rem 0 2rem;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+        .footer-brand h3 { font-size: 1.5rem; margin-bottom: 1rem; color: #FFFFFF; }
+        .footer-brand p { color: #94A3B8; font-size: 0.95rem; line-height: 1.7; max-width: 300px; }
+        .footer-links h4 { color: #FFFFFF; margin-bottom: 1.5rem; font-size: 1rem; }
+        .footer-links ul { list-style: none; }
+        .footer-links li { margin-bottom: 0.75rem; }
+        .footer-links a { color: #94A3B8; text-decoration: none; font-size: 0.95rem; transition: color 0.3s ease; }
+        .footer-links a:hover { color: #F5A524; }
+        .footer-contact h4 { color: #FFFFFF; margin-bottom: 1.5rem; font-size: 1rem; }
+        .contact-item {
+            display: flex; align-items: flex-start; gap: 1rem;
+            margin-bottom: 1rem; color: #94A3B8; font-size: 0.95rem;
+        }
+        .contact-icon {
+            width: 32px; height: 32px;
+            background: rgba(245, 165, 36, 0.1);
+            border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            color: #F5A524; flex-shrink: 0;
+        }
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            color: #64748B; font-size: 0.875rem; flex-wrap: wrap; gap: 1rem;
+        }
+        .social-links { display: flex; gap: 1rem; }
+        .social-links a {
+            width: 36px; height: 36px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: #CBD5E1; text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .social-links a:hover {
+            background: #F5A524; color: #03060D; transform: translateY(-3px);
+        }
+        
+        /* ============ ANIMATIONS ============ */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-10px); }
+        }
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        /* ============ MOBILE ============ */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .nav-cta { display: block; }
+            .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+            .hero h1 { font-size: 2.5rem; }
+            section { padding: 4rem 0; }
+            .footer-bottom { flex-direction: column; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <div class="logo-icon">G</div>
+                <span>Gunjan Cab India</span>
+            </a>
+            <div class="nav-links">
+                <a href="#home">Home</a>
+                <a href="#services">Services</a>
+                <a href="#fleet">Fleet</a>
+                <a href="#safety">Safety</a>
+                <a href="#clients">Clients</a>
+                <a href="#contact">Contact</a>
+            </div>
+            <a href="#contact" class="btn btn-primary nav-cta">Book a Ride</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section with 3D Car -->
+    <section class="hero" id="home">
+        <canvas id="hero-canvas" class="webgl"></canvas>
+        <div class="hero-content">
+            <div class="hero-kicker">
+                <span class="hero-dot"></span>
+                Premium Employee Transport
+            </div>
+            <h1>Corporate Cabs that Feel <span class="amber">First-Class</span></h1>
+            <p>Own fleet and vetted partner network. GPS-tracked rides, 24x7 control room, and one monthly GST invoice for your company.</p>
+            <div class="hero-actions">
+                <a href="#contact" class="btn btn-primary">Request a Demo</a>
+                <a href="https://api.whatsapp.com/send?phone=919811414327" class="btn btn-secondary" target="_blank">WhatsApp Us</a>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <div class="scroll-line"></div>
+            <span>Scroll to explore</span>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services">
+        <div class="container">
+            <div class="section-title reveal">
+                <h2>A Ride for Every <span class="amber">Business Need</span></h2>
+                <p>Tailored transport solutions designed for corporate teams, large and small.</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card reveal reveal-delay-1">
+                    <div class="service-icon">🚗</div>
+                    <h3>Corporate Travel</h3>
+                    <p>Dedicated employee transport with fixed schedules, multiple pickups, and drop-offs across the city.</p>
+                </div>
+                <div class="service-card reveal reveal-delay-2">
+                    <div class="service-icon">✈️</div>
+                    <h3>Airport Transfers</h3>
+                    <p>Punctual airport pickups and drops with flight tracking and meet-and-greet service.</p>
+                </div>
+                <div class="service-card reveal reveal-delay-3">
+                    <div class="service-icon">🛣️</div>
+                    <h3>Outstation Trips</h3>
+                    <p>Outstation cabs, buses, and tempo travellers for team trips and client visits across cities.</p>
+                </div>
+                <div class="service-card reveal reveal-delay-1">
+                    <div class="service-icon">🎯</div>
+                    <h3>Spot Rental</h3>
+                    <p>On-demand car rental by the hour or day with a professional chauffeur.</p>
+                </div>
+                <div class="service-card reveal reveal-delay-2">
+                    <div class="service-icon">🚌</div>
+                    <h3>Shuttle Service</h3>
+                    <p>AC coaches, buses, and tempo travellers for inter-building and office shuttle routes.</p>
+                </div>
+                <div class="service-card reveal reveal-delay-3">
+                    <div class="service-icon">🏫</div>
+                    <h3>School Transport</h3>
+                    <p>Safe, verified school fleet with GPS tracking and real-time parent notifications.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fleet Section with 3D -->
+    <section id="fleet" class="canvas-section" style="background: linear-gradient(180deg, #03060D 0%, #0B1121 100%);">
+        <canvas id="fleet-canvas" class="webgl"></canvas>
+        <div class="container">
+            <div class="section-title reveal">
+                <h2>Our <span class="amber">Fleet</span></h2>
+                <p>From everyday hatchbacks to luxury sedans and group coaches — every vehicle maintained to premium standards.</p>
+            </div>
+            <div class="fleet-showcase">
+                <div class="fleet-card reveal reveal-delay-1">
+                    <div class="fleet-icon">🚕</div>
+                    <h3>Hatchback</h3>
+                    <p>Compact and efficient for solo commuters and quick city trips.</p>
+                    <div class="fleet-capacity">1-3 Passengers</div>
+                </div>
+                <div class="fleet-card reveal reveal-delay-2">
+                    <div class="fleet-icon">🚗</div>
+                    <h3>Sedan</h3>
+                    <p>Comfortable executive travel for corporate clients and airport runs.</p>
+                    <div class="fleet-capacity">1-4 Passengers</div>
+                </div>
+                <div class="fleet-card reveal reveal-delay-3">
+                    <div class="fleet-icon">🛻</div>
+                    <h3>SUV</h3>
+                    <p>Spacious and premium for outstation trips and small group travel.</p>
+                    <div class="fleet-capacity">1-6 Passengers</div>
+                </div>
+                <div class="fleet-card reveal reveal-delay-1">
+                    <div class="fleet-icon">🌟</div>
+                    <h3>Luxury</h3>
+                    <p>Premium executive vehicles for VIP guests and leadership transport.</p>
+                    <div class="fleet-capacity">1-4 Passengers</div>
+                </div>
+                <div class="fleet-card reveal reveal-delay-2">
+                    <div class="fleet-icon">🚐</div>
+                    <h3>Tempo Traveller</h3>
+                    <p>Group transport for teams, events, and outstation corporate trips.</p>
+                    <div class="fleet-capacity">9-15 Passengers</div>
+                </div>
+                <div class="fleet-card reveal reveal-delay-3">
+                    <div class="fleet-icon">🚌</div>
+                    <h3>AC Coach</h3>
+                    <p>Full-size coaches for large employee shuttles and conference transport.</p>
+                    <div class="fleet-capacity">20-50 Passengers</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="section-title reveal">
+                <h2>Numbers that <span class="amber">Speak</span></h2>
+                <p>Proven scale and reliability across corporate transport.</p>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-item reveal reveal-delay-1">
+                    <span class="stat-number" data-target="5000000" data-suffix="M+">0</span>
+                    <span class="stat-label">KM Travelled</span>
+                </div>
+                <div class="stat-item reveal reveal-delay-2">
+                    <span class="stat-number" data-target="500" data-suffix="+">0</span>
+                    <span class="stat-label">Vehicles in Fleet</span>
+                </div>
+                <div class="stat-item reveal reveal-delay-3">
+                    <span class="stat-number" data-target="300" data-suffix="+">0</span>
+                    <span class="stat-label">Verified Drivers</span>
+                </div>
+                <div class="stat-item reveal reveal-delay-1">
+                    <span class="stat-number" data-target="15" data-suffix="+">0</span>
+                    <span class="stat-label">Cities Served</span>
+                </div>
+                <div class="stat-item reveal reveal-delay-2">
+                    <span class="stat-number" data-target="10" data-suffix="+">0</span>
+                    <span class="stat-label">Years of Service</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose / Safety Section -->
+    <section id="safety">
+        <div class="container">
+            <div class="section-title reveal">
+                <h2>Why Companies <span class="amber">Choose Us</span></h2>
+                <p>Built for safety, reliability, and zero-hassle corporate transport.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card reveal reveal-delay-1">
+                    <div class="feature-icon">🛡️</div>
+                    <div class="feature-content">
+                        <h3>Full Emphasis on Safety</h3>
+                        <p>Police-verified drivers, GPS tracking, SOS alerts, and ride-sharing with emergency contacts.</p>
+                    </div>
+                </div>
+                <div class="feature-card reveal reveal-delay-2">
+                    <div class="feature-icon">🕒</div>
+                    <div class="feature-content">
+                        <h3>24x7 Service</h3>
+                        <p>Round-the-clock availability with a dedicated control room that always answers.</p>
+                    </div>
+                </div>
+                <div class="feature-card reveal reveal-delay-3">
+                    <div class="feature-icon">💰</div>
+                    <div class="feature-content">
+                        <h3>Surge-Free Guarantee</h3>
+                        <p>Transparent, fixed pricing with no surprise surge charges — ever.</p>
+                    </div>
+                </div>
+                <div class="feature-card reveal reveal-delay-1">
+                    <div class="feature-icon">📱</div>
+                    <div class="feature-content">
+                        <h3>Real-Time Tracking</h3>
+                        <p>Live GPS tracking for every ride with ETA updates shared with employees and admin.</p>
+                    </div>
+                </div>
+                <div class="feature-card reveal reveal-delay-2">
+                    <div class="feature-icon">🧾</div>
+                    <div class="feature-content">
+                        <h3>Paperless Invoicing</h3>
+                        <p>One monthly GST-compliant invoice with cost-centre breakdown for easy reconciliation.</p>
+                    </div>
+                </div>
+                <div class="feature-card reveal reveal-delay-3">
+                    <div class="feature-icon">🏢</div>
+                    <div class="feature-content">
+                        <h3>Corporate Governance</h3>
+                        <p>ISO 9001:2015 certified processes with full audit trails and compliance reporting.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Clients Section with 3D -->
+    <section id="clients" class="canvas-section" style="background: #03060D;">
+        <canvas id="clients-canvas" class="webgl"></canvas>
+        <div class="container">
+            <div class="section-title reveal">
+                <h2>Trusted by <span class="amber">Leading Companies</span></h2>
+                <p>Our clients rely on us for safe, dependable employee transport every day.</p>
+            </div>
+            <div class="clients-grid reveal">
+                <div class="client-logo" title="Corporate Client">🏢</div>
+                <div class="client-logo" title="IT Park">💻</div>
+                <div class="client-logo" title="Manufacturing Firm">🏭</div>
+                <div class="client-logo" title="Healthcare Group">🏥</div>
+                <div class="client-logo" title="Banking Corp">🏦</div>
+                <div class="client-logo" title="E-commerce Co">📦</div>
+                <div class="client-logo" title="Logistics Firm">🚚</div>
+                <div class="client-logo" title="Hospitality Group">🏨</div>
+                <div class="client-logo" title="Education Institute">🎓</div>
+                <div class="client-logo" title="Consulting Firm">📊</div>
+                <div class="client-logo" title="Pharma Company">💊</div>
+                <div class="client-logo" title="Auto Company">🏎️</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content reveal">
+                <h2>Ready to Upgrade Your Employee Transport?</h2>
+                <p>Get a free demo and see how Gunjan Cab India can streamline your corporate commute.</p>
+                <div class="hero-actions" style="justify-content: center; margin-top: 1rem;">
+                    <a href="#contact" class="btn btn-primary">Book a Free Demo</a>
+                    <a href="https://api.whatsapp.com/send?phone=919811414327" class="btn btn-secondary" target="_blank" style="margin-left: 1rem;">WhatsApp: +91 9811414327</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" style="background: #020409;">
+        <div class="container">
+            <div class="section-title reveal">
+                <h2><span class="amber">Get in Touch</span></h2>
+                <p>Have a requirement? Our team will respond within 4 working hours.</p>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start;">
+                <div class="reveal reveal-delay-1">
+                    <h3 style="font-size: 1.75rem; margin-bottom: 1.5rem; color: #FFFFFF;">Corporate Office</h3>
+                    <div class="contact-item">
+                        <div class="contact-icon">📍</div>
+                        <div>
+                            <div style="color: #FFFFFF; font-weight: 600;">T4, B 908, NX1</div>
+                            <div style="color: #94A3B8; font-size: 0.9rem;">Plot No. 17, Tech Zone IV, Greater Noida, Uttar Pradesh 201301</div>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">📞</div>
+                        <div>
+                            <div style="color: #FFFFFF; font-weight: 600;">+91 9811414327</div>
+                            <div style="color: #94A3B8; font-size: 0.9rem;">+91 9818034276</div>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">✉️</div>
+                        <div>
+                            <div style="color: #FFFFFF; font-weight: 600;">info@gunjancabindia.com</div>
+                            <div style="color: #94A3B8; font-size: 0.9rem;">avanish.tripathi@gunjancabindia.com</div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 2rem;">
+                        <a href="https://www.linkedin.com/company/gunjan-cab-india/" target="_blank" style="display: inline-flex; align-items: center; gap: 0.5rem; color: #F5A524; text-decoration: none; font-weight: 600;">
+                            LinkedIn →
+                        </a>
+                    </div>
+                </div>
+                <div class="reveal reveal-delay-2">
+                    <form id="contact-form" style="background: rgba(30, 41, 59, 0.4); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 24px; padding: 2.5rem; backdrop-filter: blur(20px);">
+                        <div style="margin-bottom: 1.5rem;">
+                            <label style="display: block; color: #94A3B8; font-size: 0.9rem; margin-bottom: 0.5rem;">Full Name</label>
+                            <input type="text" required style="width: 100%; padding: 1rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: #FFFFFF; font-family: inherit;">
+                        </div>
+                        <div style="margin-bottom: 1.5rem;">
+                            <label style="display: block; color: #94A3B8; font-size: 0.9rem; margin-bottom: 0.5rem;">Work Email</label>
+                            <input type="email" required style="width: 100%; padding: 1rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: #FFFFFF; font-family: inherit;">
+                        </div>
+                        <div style="margin-bottom: 1.5rem;">
+                            <label style="display: block; color: #94A3B8; font-size: 0.9rem; margin-bottom: 0.5rem;">Company Name</label>
+                            <input type="text" required style="width: 100%; padding: 1rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: #FFFFFF; font-family: inherit;">
+                        </div>
+                        <div style="margin-bottom: 1.5rem;">
+                            <label style="display: block; color: #94A3B8; font-size: 0.9rem; margin-bottom: 0.5rem;">Monthly Ride Volume</label>
+                            <select style="width: 100%; padding: 1rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: #FFFFFF; font-family: inherit;">
+                                <option>1-10 rides</option>
+                                <option>11-50 rides</option>
+                                <option>51-100 rides</option>
+                                <option>100+ rides</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Request a Demo</button>
+                    </form>
+                    <div style="margin-top: 1rem; color: #64748B; font-size: 0.85rem; text-align: center;">
+                        We respect your privacy. No spam, ever.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="logo" style="text-decoration: none; color: inherit;">
+                        <div class="logo-icon">G</div>
+                        <span>Gunjan Cab India</span>
+                    </div>
+                    <p style="margin-top: 1rem;">Premium employee transport with own fleet and vetted partner network. ISO 9001:2015 certified.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="#services">Corporate Travel</a></li>
+                        <li><a href="#services">Airport Transfers</a></li>
+                        <li><a href="#services">Outstation Trips</a></li>
+                        <li><a href="#services">Spot Rental</a></li>
+                        <li><a href="#services">Shuttle Service</a></li>
+                        <li><a href="#services">School Transport</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Contact</h4>
+                    <div class="contact-item">
+                        <div class="contact-icon">📍</div>
+                        <div style="color: #94A3B8;">Greater Noida, Uttar Pradesh 201301</div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">📞</div>
+                        <div style="color: #94A3B8;">+91 9811414327</div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">✉️</div>
+                        <div style="color: #94A3B8;">info@gunjancabindia.com</div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div style="color: #64748B;">© 2024 Gunjan Cab India Pvt Ltd. All rights reserved.</div>
+                <div class="social-links">
+                    <a href="#" target="_blank" title="Facebook">📘</a>
+                    <a href="https://www.linkedin.com/company/gunjan-cab-india/" target="_blank" title="LinkedIn">💼</a>
+                    <a href="https://www.instagram.com/gunjancabindia/" target="_blank" title="Instagram">📸</a>
+                    <a href="https://x.com/gunjan_cab" target="_blank" title="X">𝕏</a>
+                    <a href="https://www.youtube.com/@GunjanCabindia" target="_blank" title="YouTube">▶️</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ============ THREE.JS 3D SCENES ============ -->
+    <script>
+        // ============ NAV SCROLL EFFECT ============
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // ============ REVEAL ON SCROLL ============
+        const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // ============ COUNTER ANIMATION ============
+        function animateCounter(el, target, duration = 2000) {
+            let start = 0;
+            const increment = target / (duration / 16);
+            const timer = setInterval(() => {
+                start += increment;
+                if (start >= target) {
+                    el.textContent = target + (el.dataset.suffix || '+');
+                    clearInterval(timer);
+                } else {
+                    el.textContent = Math.floor(start) + (el.dataset.suffix || '+');
+                }
+            }, 16);
+        }
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !entry.target.dataset.animated) {
+                    entry.target.dataset.animated = 'true';
+                    const target = parseInt(entry.target.dataset.target);
+                    animateCounter(entry.target, target);
+                }
+            });
+        }, { threshold: 0.5 });
+        document.querySelectorAll('.stat-number').forEach(el => counterObserver.observe(el));
+
+        // ============ CONTACT FORM ============
+        document.getElementById('contact-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            const originalText = btn.textContent;
+            btn.textContent = 'Sent!';
+            btn.style.background = '#10B981';
+            setTimeout(() => {
+                btn.textContent = originalText;
+                btn.style.background = '';
+                e.target.reset();
+            }, 2000);
+        });
+
+        // ============ HERO 3D SCENE ============
+        function initHeroScene() {
+            const canvas = document.getElementById('hero-canvas');
+            const scene = new THREE.Scene();
+            scene.fog = new THREE.FogExp2(0x03060D, 0.02);
+
+            const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+            camera.position.set(0, 2, 7);
+
+            const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.toneMapping = THREE.ReinhardToneMapping;
+            renderer.outputEncoding = THREE.sRGBEncoding;
+
+            // --- Lighting ---
+            const ambientLight = new THREE.AmbientLight(0x404040, 0.5);
+            scene.add(ambientLight);
+
+            const keyLight = new THREE.DirectionalLight(0xF5A524, 1.2);
+            keyLight.position.set(5, 8, 5);
+            scene.add(keyLight);
+
+            const fillLight = new THREE.DirectionalLight(0x4FA3FF, 0.7);
+            fillLight.position.set(-5, 3, -5);
+            scene.add(fillLight);
+
+            const rimLight = new THREE.SpotLight(0xFFFFFF, 3);
+            rimLight.position.set(0, 8, -8);
+            rimLight.lookAt(0, 0, 0);
+            scene.add(rimLight);
+
+            // --- Build Premium Car ---
+            function buildCar() {
+                const group = new THREE.Group();
+
+                // Main body
+                const body = new THREE.Mesh(
+                    new THREE.BoxGeometry(2.4, 0.85, 4.6),
+                    new THREE.MeshStandardMaterial({ color: 0x1E293B, metalness: 0.9, roughness: 0.15 })
+                );
+                body.position.y = 0.65;
+                group.add(body);
+
+                // Roof
+                const roofShape = new THREE.Shape();
+                roofShape.moveTo(-1.0, 0);
+                roofShape.lineTo(-0.45, 1.1);
+                roofShape.lineTo(0.45, 1.1);
+                roofShape.lineTo(1.0, 0);
+                roofShape.lineTo(-1.0, 0);
+                const roofGeom = new THREE.ExtrudeGeometry(roofShape, { depth: 4.2, bevelEnabled: false });
+                const roof = new THREE.Mesh(roofGeom, new THREE.MeshStandardMaterial({ color: 0x0F172A, metalness: 0.95, roughness: 0.1 }));
+                roof.position.set(0, 1.5, 0);
+                roof.rotation.x = Math.PI / 2;
+                group.add(roof);
+
+                // Wheels
+                const wheelGeo = new THREE.CylinderGeometry(0.42, 0.42, 0.55, 24);
+                const wheelMat = new THREE.MeshStandardMaterial({ color: 0x0B0C10, metalness: 0.3, roughness: 0.4 });
+                
+                function createWheel(x, z) {
+                    const wheel = new THREE.Mesh(wheelGeo, wheelMat);
+                    wheel.rotation.z = Math.PI / 2;
+                    wheel.position.set(x, 0.35, z);
+                    return wheel;
+                }
+                group.add(createWheel(-1.2, 1.5));
+                group.add(createWheel(1.2, 1.5));
+                group.add(createWheel(-1.2, -1.5));
+                group.add(createWheel(1.2, -1.5));
+
+                // Wheel rims (amber)
+                const rimGeo = new THREE.CylinderGeometry(0.18, 0.18, 0.5, 16);
+                const rimMat = new THREE.MeshStandardMaterial({ color: 0xF5A524, metalness: 0.95, roughness: 0.1 });
+                function createRim(x, z) {
+                    const rim = new THREE.Mesh(rimGeo, rimMat);
+                    rim.rotation.z = Math.PI / 2;
+                    rim.position.set(x, 0.35, z);
+                    return rim;
+                }
+                group.add(createRim(-1.2, 1.5));
+                group.add(createRim(1.2, 1.5));
+                group.add(createRim(-1.2, -1.5));
+                group.add(createRim(1.2, -1.5));
+
+                // Headlights
+                const lightMat = new THREE.MeshStandardMaterial({ color: 0xF5A524, emissive: 0xF5A524, emissiveIntensity: 3 });
+                const headL = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.28, 0.55), lightMat);
+                headL.position.set(-1.22, 0.75, 1.75);
+                group.add(headL);
+                const headR = headL.clone();
+                headR.position.set(1.22, 0.75, 1.75);
+                group.add(headR);
+
+                // Grille
+                const grille = new THREE.Mesh(
+                    new THREE.BoxGeometry(0.9, 0.45, 0.13),
+                    new THREE.MeshStandardMaterial({ color: 0x03060D, metalness: 1, roughness: 0 })
+                );
+                grille.position.set(0, 0.65, 1.82);
+                group.add(grille);
+
+                return group;
+            }
+
+            const car = buildCar();
+            scene.add(car);
+
+            // Reflective floor
+            const floorGeo = new THREE.PlaneGeometry(60, 60);
+            const floorMat = new THREE.MeshStandardMaterial({ color: 0x03060D, metalness: 1, roughness: 0.08 });
+            const floor = new THREE.Mesh(floorGeo, floorMat);
+            floor.rotation.x = -Math.PI / 2;
+            floor.position.y = 0;
+            scene.add(floor);
+
+            // Floating particles
+            const particlesGeo = new THREE.BufferGeometry();
+            const particlesCount = 200;
+            const posArray = new Float32Array(particlesCount * 3);
+            for (let i = 0; i < particlesCount * 3; i++) {
+                posArray[i] = (Math.random() - 0.5) * 40;
+            }
+            particlesGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+            const particlesMat = new THREE.PointsMaterial({
+                size: 0.06, color: 0xF5A524, transparent: true, opacity: 0.5
+            });
+            const particles = new THREE.Points(particlesGeo, particlesMat);
+            scene.add(particles);
+
+            // --- Animation ---
+            let time = 0;
+            function animate() {
+                requestAnimationFrame(animate);
+                time += 0.01;
+
+                car.rotation.y = Math.sin(time * 0.4) * 0.12;
+                car.position.y = 0.65 + Math.sin(time * 0.8) * 0.1;
+
+                particles.rotation.y = time * 0.04;
+                particles.rotation.x = time * 0.015;
+
+                renderer.render(scene, camera);
+            }
+            animate();
+
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        }
+        initHeroScene();
+
+        // ============ FLEET 3D SCENE (Floating Vehicles) ============
+        function initFleetScene() {
+            const canvas = document.getElementById('fleet-canvas');
+            const scene = new THREE.Scene();
+            scene.background = null;
+            
+            const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+            camera.position.set(0, 0, 8);
+
+            const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.outputEncoding = THREE.sRGBEncoding;
+
+            const ambientLight = new THREE.AmbientLight(0xFFFFFF, 0.6);
+            scene.add(ambientLight);
+            const dirLight = new THREE.DirectionalLight(0xF5A524, 1);
+            dirLight.position.set(5, 10, 7);
+            scene.add(dirLight);
+
+            // Create floating geometric vehicle shapes
+            const vehicles = [];
+            const positions = [
+                [-3, 1, 0], [-1, -1, 0], [1, 1, 0], [3, -1, 0],
+                [-2, -3, 0], [2, 3, 0], [0, 0, 0]
+            ];
+            const colors = [0xF5A524, 0x1E293B, 0x4FA3FF, 0xF5A524, 0x1E293B, 0x4FA3FF, 0xF5A524];
+
+            positions.forEach((pos, i) => {
+                const group = new THREE.Group();
+                
+                // Car body
+                const body = new THREE.Mesh(
+                    new THREE.BoxGeometry(1.2, 0.5, 2.2),
+                    new THREE.MeshStandardMaterial({ color: colors[i], metalness: 0.8, roughness: 0.2 })
+                );
+                body.position.y = 0.4;
+                group.add(body);
+
+                // Roof
+                const roof = new THREE.Mesh(
+                    new THREE.BoxGeometry(0.8, 0.4, 1.4),
+                    new THREE.MeshStandardMaterial({ color: 0x0F172A, metalness: 0.9, roughness: 0.1 })
+                );
+                roof.position.set(0, 0.85, 0);
+                group.add(roof);
+
+                // Wheels
+                const wheelGeo = new THREE.CylinderGeometry(0.25, 0.25, 0.35, 16);
+                const wheelMat = new THREE.MeshStandardMaterial({ color: 0x0B0C10 });
+                const w1 = new THREE.Mesh(wheelGeo, wheelMat);
+                w1.rotation.z = Math.PI / 2;
+                w1.position.set(-0.6, 0.25, 0.8);
+                group.add(w1);
+                const w2 = w1.clone();
+                w2.position.set(0.6, 0.25, 0.8);
+                group.add(w2);
+                const w3 = w1.clone();
+                w3.position.set(-0.6, 0.25, -0.8);
+                group.add(w3);
+                const w4 = w1.clone();
+                w4.position.set(0.6, 0.25, -0.8);
+                group.add(w4);
+
+                group.position.set(...pos);
+                scene.add(group);
+                vehicles.push({ mesh: group, speed: 0.5 + Math.random() * 0.5, offset: Math.random() * Math.PI * 2 });
+            });
+
+            let time = 0;
+            function animate() {
+                requestAnimationFrame(animate);
+                time += 0.01;
+
+                vehicles.forEach((v, i) => {
+                    v.mesh.position.y = positions[i][1] + Math.sin(time * v.speed + v.offset) * 0.4;
+                    v.mesh.rotation.y = Math.sin(time * 0.3 + i) * 0.1;
+                    v.mesh.rotation.x = Math.cos(time * 0.2 + i) * 0.05;
+                });
+
+                renderer.render(scene, camera);
+            }
+            animate();
+
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        }
+        initFleetScene();
+
+        // ============ CLIENTS 3D SCENE (Floating Logos) ============
+        function initClientsScene() {
+            const canvas = document.getElementById('clients-canvas');
+            const scene = new THREE.Scene();
+            
+            const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+            camera.position.set(0, 2, 8);
+
+            const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.outputEncoding = THREE.sRGBEncoding;
+
+            const ambientLight = new THREE.AmbientLight(0xFFFFFF, 0.5);
+            scene.add(ambientLight);
+            const pointLight = new THREE.PointLight(0xF5A524, 2);
+            pointLight.position.set(5, 5, 5);
+            scene.add(pointLight);
+
+            // Create floating 3D blocks that represent client companies
+            const blocks = [];
+            for (let i = 0; i < 12; i++) {
+                const geo = new THREE.BoxGeometry(0.8, 0.8, 0.8);
+                const mat = new THREE.MeshStandardMaterial({ 
+                    color: Math.random() > 0.5 ? 0xF5A524 : 0x1E293B,
+                    metalness: 0.7,
+                    roughness: 0.2
+                });
+                const block = new THREE.Mesh(geo, mat);
+                
+                const angle = (i / 12) * Math.PI * 2;
+                const radius = 4;
+                block.position.set(
+                    Math.cos(angle) * radius,
+                    Math.sin(angle) * radius * 0.5,
+                    0
+                );
+                
+                scene.add(block);
+                blocks.push({ mesh: block, angle, speed: 0.1 + Math.random() * 0.1, radius });
+            }
+
+            let time = 0;
+            function animate() {
+                requestAnimationFrame(animate);
+                time += 0.01;
+
+                blocks.forEach(b => {
+                    b.angle += b.speed * 0.01;
+                    b.mesh.position.x = Math.cos(b.angle) * b.radius;
+                    b.mesh.position.y = Math.sin(b.angle * 1.3) * b.radius * 0.5 + Math.sin(time) * 0.3;
+                    b.mesh.rotation.y = time * 0.5;
+                    b.mesh.rotation.x = time * 0.3;
+                });
+
+                renderer.render(scene, camera);
+            }
+            animate();
+
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        }
+        initClientsScene();
+    </script>
+</body>
+</html>
