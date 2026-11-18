@@ -1,0 +1,12 @@
+# OS files
+.DS_Store
+Thumbs.db
+*.tmp
+*.log
+
+# Editor directories
+.vscode/
+.idea/
+
+# Local shell outputs
+*.out

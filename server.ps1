@@ -1,12 +1,14 @@
-# Simple HTTP server for serving the 3D website
+# Simple HTTP server for testing Gunjan Cab India website locally
+$port = 8080
 $listener = New-Object System.Net.HttpListener
-$listener.Prefixes.Add("http://localhost:8080/")
+$listener.Prefixes.Add("http://localhost:$port/")
 $listener.Start()
 
-$root = "C:\Users\anand\Documents\Default Project\cabs-3d-website"
+$root = $PSScriptRoot
+if (-not $root) { $root = Get-Location }
 
-Write-Host "=== Local Server Started ===" -ForegroundColor Green
-Write-Host "Server running at: http://localhost:8080" -ForegroundColor Cyan
+Write-Host "=== Gunjan Cab India Local Server Started ===" -ForegroundColor Green
+Write-Host "Server running at: http://localhost:$port" -ForegroundColor Cyan
 Write-Host "Serving files from: $root" -ForegroundColor Cyan
 Write-Host "Press Ctrl+C to stop" -ForegroundColor Yellow
 Write-Host ""
@@ -27,13 +29,13 @@ try {
             $extension = [System.IO.Path]::GetExtension($fullPath)
 
             switch ($extension) {
-                ".html" { $response.ContentType = "text/html" }
-                ".css" { $response.ContentType = "text/css" }
-                ".js" { $response.ContentType = "application/javascript" }
-                ".json" { $response.ContentType = "application/json" }
-                ".png" { $response.ContentType = "image/png" }
-                ".jpg" { $response.ContentType = "image/jpeg" }
-                ".svg" { $response.ContentType = "image/svg+xml" }
+                ".html" { $response.ContentType = "text/html; charset=utf-8" }
+                ".css"  { $response.ContentType = "text/css; charset=utf-8" }
+                ".js"   { $response.ContentType = "application/javascript; charset=utf-8" }
+                ".json" { $response.ContentType = "application/json; charset=utf-8" }
+                ".png"  { $response.ContentType = "image/png" }
+                ".jpg"  { $response.ContentType = "image/jpeg" }
+                ".svg"  { $response.ContentType = "image/svg+xml" }
                 default { $response.ContentType = "application/octet-stream" }
             }
 

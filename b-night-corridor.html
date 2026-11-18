@@ -1,0 +1,449 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Gunjan Cab India — A day, handled</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@300;400;500&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#050608;
+    --text:#f4efe6;
+    --muted:rgba(244,239,230,.52);
+    --dim:rgba(244,239,230,.30);
+    --line:rgba(244,239,230,.12);
+    --amber:#e8a33d;
+    --serif:'Instrument Serif',Georgia,serif;
+    --sans:'Inter Tight',system-ui,sans-serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  ::selection{background:var(--amber);color:#050608}
+  .mono{font-family:var(--mono);font-size:10.5px;letter-spacing:.24em;text-transform:uppercase}
+  .shell{max-width:1340px;margin:0 auto;padding:0 clamp(20px,4vw,54px)}
+
+  /* grain + vignette */
+  .grain{position:fixed;inset:-50%;z-index:70;pointer-events:none;opacity:.055;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4'/></filter><rect width='220' height='220' filter='url(%23n)'/></svg>");
+    animation:grain 6s steps(5) infinite}
+  @keyframes grain{0%{transform:translate(0,0)}25%{transform:translate(-2%,1%)}50%{transform:translate(1%,-2%)}75%{transform:translate(-1%,-1%)}100%{transform:translate(0,0)}}
+  .vignette{position:fixed;inset:0;z-index:68;pointer-events:none;
+    background:radial-gradient(120% 90% at 50% 45%,transparent 42%,rgba(0,0,0,.62) 100%)}
+
+  /* header */
+  header.site{position:fixed;top:0;left:0;right:0;z-index:55;padding:22px 0;
+    background:linear-gradient(to bottom,rgba(5,6,8,.82),transparent)}
+  .bar{display:flex;align-items:center;justify-content:space-between;gap:20px}
+  .logo{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--text)}
+  .logo b{font-family:var(--serif);font-size:19px;font-weight:400;letter-spacing:.01em}
+  .logo .sub{font-family:var(--mono);font-size:8.5px;letter-spacing:.26em;color:var(--dim);display:block}
+  nav.links{display:flex;gap:30px}
+  nav.links a{color:var(--muted);text-decoration:none;font-family:var(--mono);font-size:10px;
+    letter-spacing:.22em;text-transform:uppercase;transition:color .3s}
+  nav.links a:hover{color:var(--text)}
+  .hud{display:flex;align-items:center;gap:16px;color:var(--dim);font-family:var(--mono);
+    font-size:9.5px;letter-spacing:.18em;text-transform:uppercase}
+  @media(max-width:980px){nav.links{display:none}}
+
+  /* hero */
+  .hero{position:relative;min-height:100svh;display:flex;align-items:center;overflow:hidden}
+  #trails{position:absolute;inset:0;width:100%;height:100%}
+  .hero::after{content:"";position:absolute;inset:0;pointer-events:none;
+    background:linear-gradient(to bottom,rgba(5,6,8,.55),transparent 34%,rgba(5,6,8,.92))}
+  .heroInner{position:relative;z-index:3;width:100%;padding-top:80px}
+  .eyebrow{display:flex;align-items:center;gap:14px;color:var(--amber);margin-bottom:30px}
+  .eyebrow::before{content:"";width:44px;height:1px;background:var(--amber);opacity:.7}
+  h1{font-family:var(--serif);font-weight:400;font-size:clamp(52px,9.4vw,150px);line-height:.86;
+    letter-spacing:-.02em;max-width:13ch}
+  h1 em{font-style:italic;color:var(--amber)}
+  h1 .line{display:block;overflow:hidden}
+  h1 .line > span{display:block;transform:translateY(105%);animation:rise 1.5s cubic-bezier(.16,1,.3,1) forwards}
+  h1 .line:nth-child(2) > span{animation-delay:.14s}
+  h1 .line:nth-child(3) > span{animation-delay:.28s}
+  @keyframes rise{to{transform:translateY(0)}}
+  .heroFoot{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;margin-top:clamp(30px,4vw,54px);
+    padding-top:24px;border-top:1px solid var(--line);flex-wrap:wrap;
+    opacity:0;animation:fade 1.2s .8s forwards}
+  @keyframes fade{to{opacity:1}}
+  .heroFoot p{max-width:44ch;color:var(--muted);font-size:14.5px;line-height:1.7;font-weight:300}
+  .heroFoot p b{color:var(--text);font-weight:400}
+  .scrollHint{display:flex;align-items:center;gap:10px;color:var(--dim)}
+  .scrollHint i{display:block;width:1px;height:34px;background:linear-gradient(to bottom,var(--amber),transparent);animation:drift 2.4s ease-in-out infinite}
+  @keyframes drift{0%,100%{transform:scaleY(.4);opacity:.4}50%{transform:scaleY(1);opacity:1}}
+
+  /* letterbox */
+  .lb{position:fixed;left:0;right:0;height:0;background:#000;z-index:54;pointer-events:none;
+    transition:height 1.1s cubic-bezier(.16,1,.3,1)}
+  .lb.top{top:0}
+  .lb.bot{bottom:0}
+
+  /* ---------- narrative ---------- */
+  .story{position:relative;height:340vh;background:var(--bg)}
+  .stage{position:sticky;top:0;height:100svh;display:flex;align-items:center;overflow:hidden;
+    background:var(--scene,#0a0d14);transition:background-color .6s linear}
+  .stage::before{content:"";position:absolute;inset:0;
+    background:radial-gradient(80% 60% at var(--gx,30%) var(--gy,70%),var(--halo,rgba(232,163,61,.22)),transparent 68%);
+    transition:background .6s linear}
+  .scene{position:absolute;inset:0;display:flex;align-items:center;opacity:0;transition:opacity .7s ease}
+  .scene.on{opacity:1}
+  .sceneInner{width:100%;padding:0 clamp(20px,4vw,54px);max-width:1340px;margin:0 auto}
+  .time{font-family:var(--mono);font-size:clamp(11px,1.2vw,13px);letter-spacing:.4em;color:var(--amber);margin-bottom:26px}
+  .scene h2{font-family:var(--serif);font-weight:400;font-size:clamp(34px,6vw,86px);line-height:.95;
+    letter-spacing:-.015em;max-width:18ch}
+  .scene h2 em{font-style:italic;color:var(--amber)}
+  .scene p{margin-top:26px;max-width:44ch;color:var(--muted);font-size:clamp(14px,1.3vw,17px);
+    line-height:1.72;font-weight:300}
+  .scene .specs{display:flex;gap:clamp(20px,4vw,58px);margin-top:clamp(28px,4vw,48px);
+    padding-top:22px;border-top:1px solid var(--line);flex-wrap:wrap}
+  .scene .specs div{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
+  .scene .specs b{display:block;font-family:var(--sans);font-size:clamp(16px,1.7vw,21px);font-weight:300;
+    letter-spacing:-.01em;text-transform:none;color:var(--text);margin-top:8px}
+  .progress{position:absolute;bottom:clamp(28px,5vh,56px);left:clamp(20px,4vw,54px);right:clamp(20px,4vw,54px);
+    display:flex;align-items:center;gap:16px;z-index:4}
+  .progress .rail{flex:1;height:1px;background:var(--line);position:relative}
+  .progress .rail i{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--amber);transition:width .25s linear}
+  .progress .mono{color:var(--dim);white-space:nowrap}
+
+  /* ---------- fleet ---------- */
+  section.block{padding:clamp(64px,10vw,140px) 0;border-top:1px solid var(--line)}
+  .secHead{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;flex-wrap:wrap;margin-bottom:clamp(36px,5vw,64px)}
+  .secHead h2{font-family:var(--serif);font-weight:400;font-size:clamp(30px,4.6vw,64px);line-height:.98;letter-spacing:-.015em}
+  .secHead h2 em{font-style:italic;color:var(--amber)}
+  .secHead p{max-width:34ch;color:var(--muted);font-size:14px;line-height:1.68;font-weight:300}
+
+  .fleetRows{border-top:1px solid var(--line)}
+  .fRow{display:grid;grid-template-columns:56px 1.2fr 1fr 130px;gap:clamp(12px,2.4vw,30px);align-items:center;
+    padding:clamp(20px,2.6vw,32px) 0;border-bottom:1px solid var(--line);position:relative;
+    transition:padding .5s cubic-bezier(.16,1,.3,1)}
+  .fRow::before{content:"";position:absolute;left:0;top:50%;transform:translateY(-50%);height:0;width:0;
+    background:radial-gradient(50% 50% at 0% 50%,rgba(232,163,61,.26),transparent 70%);
+    transition:width .6s cubic-bezier(.16,1,.3,1),height .6s;pointer-events:none}
+  .fRow:hover::before{width:46%;height:150%}
+  .fRow:hover{padding-left:16px}
+  .fRow .n{font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:var(--dim)}
+  .fRow h3{font-family:var(--serif);font-weight:400;font-size:clamp(22px,2.8vw,34px);line-height:1.05;letter-spacing:-.01em}
+  .fRow:hover h3{color:var(--amber)}
+  .fRow p{color:var(--muted);font-size:13.5px;line-height:1.6;font-weight:300}
+  .fRow .seat{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);text-align:right}
+  @media(max-width:820px){
+    .fRow{grid-template-columns:34px 1fr}
+    .fRow p{grid-column:2}
+    .fRow .seat{display:none}
+  }
+
+  /* services */
+  .svc{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+  @media(max-width:900px){.svc{grid-template-columns:1fr}}
+  .svcCard{background:var(--bg);padding:clamp(24px,3vw,38px);min-height:230px;display:flex;
+    flex-direction:column;justify-content:space-between;transition:background .5s}
+  .svcCard:hover{background:#0a0c10}
+  .svcCard .k{font-family:var(--mono);font-size:10px;letter-spacing:.22em;color:var(--amber);text-transform:uppercase}
+  .svcCard h3{font-family:var(--serif);font-weight:400;font-size:clamp(20px,2.2vw,27px);line-height:1.1;margin-top:16px}
+  .svcCard p{color:var(--muted);font-size:13.5px;line-height:1.62;font-weight:300;margin-top:14px}
+
+  /* certificates strip */
+  .strip{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;padding:clamp(28px,4vw,44px) 0;
+    border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .strip div{font-family:var(--mono);font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--dim)}
+  .strip b{display:block;font-family:var(--serif);font-size:clamp(17px,1.9vw,23px);font-weight:400;
+    letter-spacing:0;text-transform:none;color:var(--text);margin-top:9px}
+
+  /* close */
+  .close{text-align:center;padding:clamp(80px,13vw,180px) 0}
+  .close h2{font-family:var(--serif);font-weight:400;font-size:clamp(38px,7.4vw,110px);line-height:.9;letter-spacing:-.02em}
+  .close h2 em{font-style:italic;color:var(--amber)}
+  .close p{max-width:42ch;margin:26px auto 0;color:var(--muted);font-size:15px;line-height:1.7;font-weight:300}
+  .cta{display:inline-flex;align-items:center;gap:14px;margin-top:40px;padding:18px 34px;
+    border:1px solid var(--amber);color:var(--amber);text-decoration:none;font-family:var(--mono);
+    font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;transition:.4s;position:relative;overflow:hidden}
+  .cta:hover{background:var(--amber);color:#050608}
+  footer.site{padding:30px 0 46px;border-top:1px solid var(--line);display:flex;justify-content:space-between;
+    gap:18px;flex-wrap:wrap;color:var(--dim)}
+
+  .rv{opacity:0;transform:translateY(26px);transition:opacity 1s cubic-bezier(.16,1,.3,1),transform 1s cubic-bezier(.16,1,.3,1)}
+  .rv.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important}
+    .rv{opacity:1;transform:none}
+    h1 .line > span{transform:none}
+    .heroFoot{opacity:1}
+    .lb{display:none}
+    .scene{transition:none}
+    .scene[data-scene="0"]{opacity:1}
+  }
+</style>
+</head>
+<body>
+<div class="grain"></div>
+<div class="vignette"></div>
+<div class="lb top"></div>
+<div class="lb bot"></div>
+
+<header class="site">
+  <div class="shell bar">
+    <a class="logo" href="#top">
+      <div>
+        <b>Gunjan Cab India</b>
+        <span class="sub">Greater Noida · 24×7 dispatch</span>
+      </div>
+    </a>
+    <nav class="links">
+      <a href="index.html">← All Options</a>
+      <a href="a-control-room.html" style="color:var(--amber)">Direction A (Final) ↗</a>
+      <a href="#story">A day</a>
+      <a href="#fleet">Fleet</a>
+      <a href="#services">Services</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="hud">
+      <span id="tc">00:00:00:00</span>
+      <span>·</span>
+      <span>ISO 9001 / 14001</span>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <canvas id="trails"></canvas>
+    <div class="heroInner shell">
+      <div class="eyebrow mono">A day with GCI · 05:40 IST</div>
+      <h1>
+        <span class="line"><span>A day,</span></span>
+        <span class="line"><span><em>handled.</em></span></span>
+        <span class="line"><span>Every time.</span></span>
+      </h1>
+      <div class="heroFoot">
+        <p>
+          Airport runs at dawn, boardrooms by nine, outstation by night.
+          <b>One operator, one control room, one number</b> — moving Delhi NCR's
+          workforce while the city is still asleep.
+        </p>
+        <div class="scrollHint mono"><i></i>Scroll to run the day</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="story" id="story">
+    <div class="stage">
+      <div class="scene" data-scene="0">
+        <div class="sceneInner">
+          <div class="time">05:40 — IGI AIRPORT, T3</div>
+          <h2>The car is already <em>waiting.</em></h2>
+          <p>Flight-linked dispatch. We track the arrival, not the schedule — so when the plane is late, nobody is standing at the kerb.</p>
+          <div class="specs">
+            <div>Vehicle<b>Sedan · chauffeur</b></div>
+            <div>Boarding<b>Kerbside, 4 min</b></div>
+            <div>Tracking<b>Live, client-visible</b></div>
+          </div>
+        </div>
+      </div>
+      <div class="scene" data-scene="1">
+        <div class="sceneInner">
+          <div class="time">09:15 — CYBER CITY, GURUGRAM</div>
+          <h2>Eleven vehicles. <em>One arrival window.</em></h2>
+          <p>Shift change for a corporate campus: staggered dispatch, mapped routes, and a coordinator who knows which gate clears first.</p>
+          <div class="specs">
+            <div>Volume<b>11 vehicles / 8 min</b></div>
+            <div>On-time<b>99.2%</b></div>
+            <div>Invoice<b>Paperless, monthly</b></div>
+          </div>
+        </div>
+      </div>
+      <div class="scene" data-scene="2">
+        <div class="sceneInner">
+          <div class="time">21:30 — NH-24, TOWARD AGRA</div>
+          <h2>Outstation, <em>staffed.</em></h2>
+          <p>Multi-day, multi-city. One contact from pickup to return, with a driver who has done the route before — not a marketplace bid.</p>
+          <div class="specs">
+            <div>Vehicle<b>SUV / Tempo Traveller</b></div>
+            <div>Route<b>Pre-surveyed</b></div>
+            <div>Support<b>24×7 control room</b></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="progress">
+        <span class="mono" id="pc">01 / 03</span>
+        <div class="rail"><i id="pbar"></i></div>
+        <span class="mono">One day, run end to end</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="fleet">
+    <div class="shell">
+      <div class="secHead rv">
+        <h2>The <em>fleet</em></h2>
+        <p>Hatchback to AC coach. Specified, verified, and available on one dispatch number.</p>
+      </div>
+      <div class="fleetRows">
+        <div class="fRow rv"><div class="n">01</div><h3>Hatchback</h3><p>Short point-to-point drops and single-occupant runs.</p><div class="seat">4 seats</div></div>
+        <div class="fRow rv"><div class="n">02</div><h3>Sedan</h3><p>Airport transfers, executive pickups, daily rental.</p><div class="seat">4 seats · 2 bags</div></div>
+        <div class="fRow rv"><div class="n">03</div><h3>SUV</h3><p>Outstation with luggage, senior leadership movement.</p><div class="seat">6–7 seats</div></div>
+        <div class="fRow rv"><div class="n">04</div><h3>Luxury</h3><p>Board visits, guest pickup, VIP and red-carpet movement.</p><div class="seat">Chauffeur</div></div>
+        <div class="fRow rv"><div class="n">05</div><h3>Tempo Traveller</h3><p>Team offsites, outstation groups, event transport.</p><div class="seat">12–17 seats</div></div>
+        <div class="fRow rv"><div class="n">06</div><h3>AC Coach</h3><p>Employee commutes, campus shuttles, large events.</p><div class="seat">27–45 seats</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="services">
+    <div class="shell">
+      <div class="secHead rv">
+        <h2>What we <em>run</em></h2>
+        <p>Six services, one dispatch desk, one invoice trail.</p>
+      </div>
+      <div class="svc rv">
+        <div class="svcCard"><div><div class="k">01</div><h3>Corporate &amp; employee transport</h3></div><p>Route planning, shift mapping, dedicated coordinator.</p></div>
+        <div class="svcCard"><div><div class="k">02</div><h3>Car &amp; spot rental</h3></div><p>Hourly, daily or monthly, with driver. Quoted before the trip.</p></div>
+        <div class="svcCard"><div><div class="k">03</div><h3>Airport transfers</h3></div><p>Flight-linked dispatch across IGI and Hindon.</p></div>
+        <div class="svcCard"><div><div class="k">04</div><h3>Outstation</h3></div><p>Cars, buses and tempo travellers, multi-day.</p></div>
+        <div class="svcCard"><div><div class="k">05</div><h3>Events &amp; shuttles</h3></div><p>High-volume movement on a schedule, inter-building too.</p></div>
+        <div class="svcCard"><div><div class="k">06</div><h3>School &amp; institutional</h3></div><p>Fixed routes, verified drivers, parent visibility.</p></div>
+      </div>
+
+      <div class="strip rv" style="margin-top:clamp(40px,6vw,70px)">
+        <div>Quality<b>ISO 9001:2015</b></div>
+        <div>Environment<b>ISO 14001:2015</b></div>
+        <div>Availability<b>24 × 7 control room</b></div>
+        <div>Pricing<b>Surge-free guarantee</b></div>
+        <div>Billing<b>Paperless</b></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="shell close">
+      <h2>Tell us the day.<br /><em>We'll run it.</em></h2>
+      <p>Corporate office — Tower 4, B-908, NX1, Plot 17, Tech Zone IV, Greater Noida, Uttar Pradesh 201301.</p>
+      <a class="cta" href="tel:+919811414327">+91 98114 14327</a>
+      <div class="mono" style="margin-top:22px;color:var(--dim)">info@gunjancabindia.com · 0120 605 8300</div>
+    </div>
+  </section>
+</main>
+
+<footer class="site shell">
+  <div class="mono">Gunjan Cab India Pvt Ltd</div>
+  <div class="mono">Direction B — Night Corridor</div>
+</footer>
+
+<script>
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* timecode HUD */
+  const tc = document.getElementById('tc');
+  let f = 0;
+  setInterval(() => {
+    f = (f + 1) % 24;
+    const s = Math.floor(f / 1) % 60;
+    tc.textContent = `00:00:${String(Math.floor(Date.now() / 1000) % 60).padStart(2,'0')}:${String(f).padStart(2,'0')}`;
+  }, 80);
+
+  /* ---------- headlight trails ---------- */
+  const cv = document.getElementById('trails');
+  const ctx = cv.getContext('2d');
+  let W = 0, H = 0, streaks = [];
+
+  function size() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 1.75);
+    W = cv.clientWidth; H = cv.clientHeight;
+    cv.width = Math.floor(W * dpr); cv.height = Math.floor(H * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+
+  function spawn(n) {
+    streaks = Array.from({ length: n }, () => ({
+      x: Math.random() * W,
+      y: H * (0.28 + Math.random() * 0.62),
+      len: 40 + Math.random() * 230,
+      v: 1.4 + Math.random() * 5.2,
+      a: 0.05 + Math.random() * 0.30,
+      warm: Math.random() > 0.42,
+      w: Math.random() > 0.8 ? 1.6 : 0.9
+    }));
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    ctx.globalCompositeOperation = 'lighter';
+    for (const s of streaks) {
+      s.x += s.v;
+      if (s.x - s.len > W) { s.x = -s.len; s.y = H * (0.28 + Math.random() * 0.62); }
+      const g = ctx.createLinearGradient(s.x - s.len, s.y, s.x, s.y);
+      const col = s.warm ? '232,163,61' : '244,239,230';
+      g.addColorStop(0, `rgba(${col},0)`);
+      g.addColorStop(0.72, `rgba(${col},${s.a * 0.7})`);
+      g.addColorStop(1, `rgba(${col},${s.a})`);
+      ctx.strokeStyle = g;
+      ctx.lineWidth = s.w;
+      ctx.beginPath();
+      ctx.moveTo(s.x - s.len, s.y);
+      ctx.lineTo(s.x, s.y);
+      ctx.stroke();
+    }
+    if (!reduce) requestAnimationFrame(draw);
+  }
+
+  size(); spawn(W < 760 ? 34 : 62);
+  if (!reduce) requestAnimationFrame(draw); else draw();
+  window.addEventListener('resize', () => { size(); spawn(W < 760 ? 34 : 62); });
+
+  /* ---------- letterbox on scroll ---------- */
+  const lbT = document.querySelector('.lb.top'), lbB = document.querySelector('.lb.bot');
+  window.addEventListener('scroll', () => {
+    const k = Math.min(1, window.scrollY / (window.innerHeight * 0.5));
+    lbT.style.height = lbB.style.height = (k * 26) + 'px';
+  }, { passive: true });
+
+  /* ---------- story stage ---------- */
+  const story = document.querySelector('.story');
+  const stage = document.querySelector('.stage');
+  const scenes = [...document.querySelectorAll('.scene')];
+  const pbar = document.getElementById('pbar');
+  const pc = document.getElementById('pc');
+
+  /* dawn → day → night */
+  const moods = [
+    { bg: '#0a0d14', halo: 'rgba(232,163,61,.26)', gx: '26%', gy: '74%' },
+    { bg: '#0e1218', halo: 'rgba(140,180,220,.20)', gx: '58%', gy: '36%' },
+    { bg: '#07080c', halo: 'rgba(232,163,61,.16)', gx: '74%', gy: '66%' }
+  ];
+
+  function onScroll() {
+    const r = story.getBoundingClientRect();
+    const total = story.offsetHeight - window.innerHeight;
+    const p = Math.max(0, Math.min(1, -r.top / total));
+    pbar.style.width = (p * 100) + '%';
+
+    const idx = p < 0.34 ? 0 : p < 0.68 ? 1 : 2;
+    scenes.forEach((s, i) => s.classList.toggle('on', i === idx));
+    pc.textContent = `0${idx + 1} / 03`;
+
+    const m = moods[idx];
+    stage.style.backgroundColor = m.bg;
+    stage.style.setProperty('--halo', m.halo);
+    stage.style.setProperty('--gx', m.gx);
+    stage.style.setProperty('--gy', m.gy);
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  /* reveals */
+  const io = new IntersectionObserver(es => {
+    es.forEach((e, i) => {
+      if (e.isIntersecting) {
+        e.target.style.transitionDelay = (i % 6) * 80 + 'ms';
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: .14 });
+  document.querySelectorAll('.rv').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
